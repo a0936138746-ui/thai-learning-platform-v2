@@ -8,6 +8,10 @@ function App() {
     const savedVocabulary = localStorage.getItem(VOCABULARY_STORAGE_KEY);
     return savedVocabulary ? JSON.parse(savedVocabulary) : [];
   });
+  const [teacherSentences, setTeacherSentences] = useState(() => {
+    const savedSentences = localStorage.getItem(SENTENCE_STORAGE_KEY);
+    return savedSentences ? JSON.parse(savedSentences) : [];
+  });
 
   useEffect(() => {
     localStorage.setItem(
@@ -16,8 +20,24 @@ function App() {
     );
   }, [teacherVocabulary]);
 
+  useEffect(() => {
+    localStorage.setItem(
+      SENTENCE_STORAGE_KEY,
+      JSON.stringify(teacherSentences)
+    );
+  }, [teacherSentences]);
+
   if (page === "student") {
     return <StudentPage setPage={setPage} />;
+  }
+
+  if (page === "sentencePractice") {
+    return (
+      <SentencePracticePage
+        setPage={setPage}
+        teacherSentences={teacherSentences}
+      />
+    );
   }
 
   if (page === "flashcards") {
@@ -39,6 +59,16 @@ function App() {
         setPage={setPage}
         teacherVocabulary={teacherVocabulary}
         setTeacherVocabulary={setTeacherVocabulary}
+      />
+    );
+  }
+
+  if (page === "sentences") {
+    return (
+      <SentenceManagerPage
+        setPage={setPage}
+        teacherSentences={teacherSentences}
+        setTeacherSentences={setTeacherSentences}
       />
     );
   }
@@ -98,7 +128,9 @@ function StudentPage({ setPage }) {
         <div style={cardStyle} onClick={() => setPage("flashcards")}>
           🃏 單字圖卡
         </div>
-        <div style={cardStyle}>💬 句型練習</div>
+        <div style={cardStyle} onClick={() => setPage("sentencePractice")}>
+          💬 句型練習
+        </div>
         <div style={cardStyle}>🎥 AI 動畫課程</div>
         <div style={cardStyle}>📝 測驗中心</div>
       </div>
@@ -260,6 +292,9 @@ function TeacherPage({ setPage, teacherVocabulary, setTeacherVocabulary }) {
         <div style={cardStyle}>📚 教材管理</div>
         <div style={cardStyle} onClick={() => setPage("vocabulary")}>
           ➕ 新增單字
+        </div>
+        <div style={cardStyle} onClick={() => setPage("sentences")}>
+          💬 句子管理
         </div>
         <div style={cardStyle}>👨‍🎓 學生管理</div>
         <div style={cardStyle}>📈 學習進度</div>
@@ -543,6 +578,256 @@ function VocabularyManagerPage({
   );
 }
 
+
+function SentenceManagerPage({ setPage, teacherSentences, setTeacherSentences }) {
+  const emptyForm = { zh: "", th: "", py: "", note: "" };
+  const [form, setForm] = useState(emptyForm);
+  const [editingId, setEditingId] = useState(null);
+
+  function updateForm(field, value) {
+    setForm({ ...form, [field]: value });
+  }
+
+  function resetForm() {
+    setForm(emptyForm);
+    setEditingId(null);
+  }
+
+  function saveSentence(event) {
+    event.preventDefault();
+
+    const sentenceItem = {
+      zh: form.zh.trim(),
+      th: form.th.trim(),
+      py: form.py.trim(),
+      note: form.note.trim(),
+    };
+
+    if (!sentenceItem.zh || !sentenceItem.th) {
+      return;
+    }
+
+    if (editingId) {
+      setTeacherSentences(
+        teacherSentences.map((item) =>
+          item.id === editingId ? { ...item, ...sentenceItem } : item
+        )
+      );
+    } else {
+      setTeacherSentences([
+        ...teacherSentences,
+        { id: Date.now().toString(), ...sentenceItem },
+      ]);
+    }
+
+    resetForm();
+  }
+
+  function editSentence(item) {
+    setEditingId(item.id);
+    setForm({
+      zh: item.zh,
+      th: item.th,
+      py: item.py || "",
+      note: item.note || "",
+    });
+  }
+
+  function deleteSentence(id) {
+    setTeacherSentences(teacherSentences.filter((item) => item.id !== id));
+
+    if (editingId === id) {
+      resetForm();
+    }
+  }
+
+  return (
+    <div style={pageStyle}>
+      <button style={backButtonStyle} onClick={() => setPage("teacher")}>
+        ← 回老師後台
+      </button>
+
+      <h1 style={titleStyle}>句子管理</h1>
+      <p style={subtitleStyle}>
+        老師新增的句子會自動儲存，並出現在學生的句型練習中。
+      </p>
+
+      <div style={teacherPanelStyle}>
+        <div style={tableCardStyle}>
+          <h2>{editingId ? "編輯句子" : "新增句子"}</h2>
+
+          <form onSubmit={saveSentence} style={sentenceFormStyle}>
+            <label style={labelStyle}>
+              中文句子
+              <textarea
+                style={textareaStyle}
+                value={form.zh}
+                onChange={(event) => updateForm("zh", event.target.value)}
+                placeholder="例如：我想喝水。"
+              />
+            </label>
+
+            <label style={labelStyle}>
+              泰文句子
+              <textarea
+                style={textareaStyle}
+                value={form.th}
+                onChange={(event) => updateForm("th", event.target.value)}
+                placeholder="例如：ฉันอยากดื่มน้ำ"
+              />
+            </label>
+
+            <label style={labelStyle}>
+              拼音 / 發音
+              <input
+                style={inputStyle}
+                value={form.py}
+                onChange={(event) => updateForm("py", event.target.value)}
+                placeholder="例如：chăn yàak dùuem náam"
+              />
+            </label>
+
+            <label style={labelStyle}>
+              練習提示
+              <input
+                style={inputStyle}
+                value={form.note}
+                onChange={(event) => updateForm("note", event.target.value)}
+                placeholder="例如：可替換飲料名稱"
+              />
+            </label>
+
+            <div style={{ display: "flex", alignItems: "end", gap: "10px" }}>
+              <button style={greenButtonStyle} type="submit">
+                {editingId ? "儲存修改" : "新增句子"}
+              </button>
+
+              {editingId && (
+                <button
+                  style={smallButtonStyle}
+                  type="button"
+                  onClick={resetForm}
+                >
+                  取消
+                </button>
+              )}
+            </div>
+          </form>
+        </div>
+
+        <div style={tableCardStyle}>
+          <h2>老師句子庫</h2>
+
+          {teacherSentences.length === 0 ? (
+            <p style={{ color: "#666" }}>
+              尚未新增句子，請使用上方表單建立第一個句型練習。
+            </p>
+          ) : (
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <thead>
+                <tr>
+                  <th style={thStyle}>中文</th>
+                  <th style={thStyle}>泰文</th>
+                  <th style={thStyle}>拼音</th>
+                  <th style={thStyle}>提示</th>
+                  <th style={thStyle}>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {teacherSentences.map((item) => (
+                  <tr key={item.id}>
+                    <td style={tdStyle}>{item.zh}</td>
+                    <td style={tdStyle}>{item.th}</td>
+                    <td style={tdStyle}>{item.py || "—"}</td>
+                    <td style={tdStyle}>{item.note || "—"}</td>
+                    <td style={tdStyle}>
+                      <button
+                        style={smallButtonStyle}
+                        onClick={() => editSentence(item)}
+                      >
+                        編輯
+                      </button>
+                      <button
+                        style={dangerButtonStyle}
+                        onClick={() => deleteSentence(item.id)}
+                      >
+                        刪除
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SentencePracticePage({ setPage, teacherSentences }) {
+  const practiceSentences = [...defaultSentences, ...teacherSentences];
+  const [currentSentence, setCurrentSentence] = useState(0);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const safeSentenceIndex = currentSentence % practiceSentences.length;
+  const sentence = practiceSentences[safeSentenceIndex];
+
+  function nextSentence() {
+    setCurrentSentence((currentSentence + 1) % practiceSentences.length);
+    setShowAnswer(false);
+  }
+
+  function prevSentence() {
+    setCurrentSentence(
+      (currentSentence - 1 + practiceSentences.length) % practiceSentences.length
+    );
+    setShowAnswer(false);
+  }
+
+  return (
+    <div style={pageStyle}>
+      <button style={backButtonStyle} onClick={() => setPage("student")}>
+        ← 回學生學習中心
+      </button>
+
+      <h1 style={titleStyle}>💬 句型練習</h1>
+      <p style={subtitleStyle}>先看中文句子，試著說出泰文，再顯示答案。</p>
+
+      <div style={{ ...tableCardStyle, maxWidth: "720px", margin: "0 auto" }}>
+        <p style={{ color: "#666", marginTop: 0 }}>
+          第 {safeSentenceIndex + 1} 題 / 共 {practiceSentences.length} 題
+        </p>
+
+        <div style={sentencePromptStyle}>{sentence.zh}</div>
+
+        {sentence.note && <p style={hintStyle}>提示：{sentence.note}</p>}
+
+        {showAnswer ? (
+          <div style={answerStyle}>
+            <div style={{ fontSize: "32px", marginBottom: "12px" }}>
+              {sentence.th}
+            </div>
+            <div style={{ color: "#666" }}>{sentence.py || "請跟老師練習發音"}</div>
+          </div>
+        ) : (
+          <button style={greenButtonStyle} onClick={() => setShowAnswer(true)}>
+            顯示泰文答案
+          </button>
+        )}
+
+        <div style={{ textAlign: "center", marginTop: "24px" }}>
+          <button style={smallButtonStyle} onClick={prevSentence}>
+            上一句
+          </button>
+          <button style={greenButtonStyle} onClick={nextSentence}>
+            下一句
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function BookingPage({ setPage }) {
   return (
     <div style={pageStyle}>
@@ -596,6 +881,7 @@ function BookingPage({ setPage }) {
 }
 
 const VOCABULARY_STORAGE_KEY = "thai-learning-teacher-vocabulary";
+const SENTENCE_STORAGE_KEY = "thai-learning-teacher-sentences";
 
 const defaultFlashcards = [
   { zh: "蘋果", th: "แอปเปิล", py: "aep-bpen" },
@@ -603,6 +889,27 @@ const defaultFlashcards = [
   { zh: "飯", th: "ข้าว", py: "khâao" },
   { zh: "你好", th: "สวัสดี", py: "sà-wàt-dii" },
   { zh: "謝謝", th: "ขอบคุณ", py: "khɔ̀ɔp-khun" },
+];
+
+const defaultSentences = [
+  {
+    zh: "我想喝水。",
+    th: "ฉันอยากดื่มน้ำ",
+    py: "chăn yàak dùuem náam",
+    note: "練習「我想要……」的句型",
+  },
+  {
+    zh: "這個多少錢？",
+    th: "อันนี้ราคาเท่าไหร่",
+    py: "an níi raa-khaa thâo-rài",
+    note: "購物時常用",
+  },
+  {
+    zh: "請再說一次。",
+    th: "กรุณาพูดอีกครั้ง",
+    py: "gà-rú-naa phûut ìik khráng",
+    note: "聽不清楚時使用",
+  },
 ];
 
 const pageStyle = {
@@ -653,6 +960,13 @@ const formStyle = {
   alignItems: "end",
 };
 
+const sentenceFormStyle = {
+  display: "grid",
+  gridTemplateColumns: "repeat(2, 1fr)",
+  gap: "16px",
+  alignItems: "end",
+};
+
 const labelStyle = {
   display: "flex",
   flexDirection: "column",
@@ -666,6 +980,36 @@ const inputStyle = {
   border: "1px solid #ddd",
   borderRadius: "12px",
   fontSize: "16px",
+};
+
+const textareaStyle = {
+  ...inputStyle,
+  minHeight: "92px",
+  resize: "vertical",
+  fontFamily: "Arial, sans-serif",
+};
+
+const sentencePromptStyle = {
+  padding: "28px",
+  borderRadius: "18px",
+  background: "#eef7ff",
+  fontSize: "30px",
+  textAlign: "center",
+  marginBottom: "18px",
+};
+
+const hintStyle = {
+  padding: "12px 16px",
+  borderRadius: "12px",
+  background: "#fff8e1",
+  color: "#795548",
+};
+
+const answerStyle = {
+  padding: "24px",
+  borderRadius: "18px",
+  background: "#f1f8e9",
+  textAlign: "center",
 };
 
 const dangerButtonStyle = {
