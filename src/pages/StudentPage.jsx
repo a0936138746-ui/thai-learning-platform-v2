@@ -20,7 +20,9 @@ export default function StudentPage({ setPage }) {
           💬 句型練習
         </div>
         <div style={cardStyle}>🎥 AI 動畫課程</div>
-        <div style={cardStyle}>📝 測驗中心</div>
+        <div style={cardStyle} onClick={() => setPage("quiz")}>
+          📝 測驗中心
+        </div>
       </div>
     </div>
   );

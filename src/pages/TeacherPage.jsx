@@ -76,7 +76,9 @@ export default function TeacherPage({ setPage, teacherVocabulary, setTeacherVoca
         </div>
         <div style={cardStyle}>👨‍🎓 學生管理</div>
         <div style={cardStyle}>📈 學習進度</div>
-        <div style={cardStyle}>📝 測驗題庫</div>
+        <div style={cardStyle} onClick={() => setPage("quizManager")}>
+          📝 測驗題庫
+        </div>
         <div style={cardStyle}>🎥 AI 教材管理</div>
       </div>
 
