@@ -31,7 +31,7 @@ function App() {
     return <StudentPage setPage={setPage} />;
   }
 
-  if (page === "sentencePractice") {
+  if (page === "sentences") {
     return (
       <SentencePracticePage
         setPage={setPage}
@@ -122,7 +122,7 @@ function StudentPage({ setPage }) {
         <div style={cardStyle} onClick={() => setPage("flashcards")}>
           🃏 單字圖卡
         </div>
-        <div style={cardStyle} onClick={() => setPage("sentencePractice")}>
+        <div style={cardStyle} onClick={() => setPage("sentences")}>
           💬 句型練習
         </div>
         <div style={cardStyle}>🎥 AI 動畫課程</div>
@@ -157,7 +157,7 @@ function SentencePracticePage({ setPage, teacherSentences }) {
       </button>
 
       <h1 style={titleStyle}>💬 句型練習</h1>
-      <p style={subtitleStyle}>練習老師新增的泰文句型與使用情境</p>
+      <p style={subtitleStyle}>練習老師新增的泰文句型與使用說明</p>
 
       {hasSentences ? (
         <>
@@ -167,7 +167,7 @@ function SentencePracticePage({ setPage, teacherSentences }) {
             <p style={{ color: "#666", marginTop: 0 }}>中文意思</p>
             <h2>{sentence.zh}</h2>
 
-            <p style={{ color: "#666" }}>泰文句型</p>
+            <p style={{ color: "#666" }}>泰文句子</p>
             <div style={{ fontSize: "34px", marginBottom: "16px" }}>
               {sentence.th}
             </div>
