@@ -1,28 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [page, setPage] = useState("home");
   const [currentCard, setCurrentCard] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const [teacherVocabulary, setTeacherVocabulary] = useState(() => {
+    const savedVocabulary = localStorage.getItem(VOCABULARY_STORAGE_KEY);
+    return savedVocabulary ? JSON.parse(savedVocabulary) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem(
+      VOCABULARY_STORAGE_KEY,
+      JSON.stringify(teacherVocabulary)
+    );
+  }, [teacherVocabulary]);
 
   if (page === "student") {
     return <StudentPage setPage={setPage} />;
   }
 
   if (page === "flashcards") {
-  return (
-    <FlashcardPage
-      setPage={setPage}
-      currentCard={currentCard}
-      setCurrentCard={setCurrentCard}
-      flipped={flipped}
-      setFlipped={setFlipped}
-    />
-  );
-}
+    return (
+      <FlashcardPage
+        setPage={setPage}
+        currentCard={currentCard}
+        setCurrentCard={setCurrentCard}
+        flipped={flipped}
+        setFlipped={setFlipped}
+        teacherVocabulary={teacherVocabulary}
+      />
+    );
+  }
 
   if (page === "teacher") {
     return <TeacherPage setPage={setPage} />;
+  }
+
+  if (page === "vocabulary") {
+    return (
+      <VocabularyManagerPage
+        setPage={setPage}
+        teacherVocabulary={teacherVocabulary}
+        setTeacherVocabulary={setTeacherVocabulary}
+      />
+    );
   }
 
   if (page === "booking") {
@@ -68,8 +90,8 @@ function StudentPage({ setPage }) {
         <div style={cardStyle}>🔤 母音學習</div>
         <div style={cardStyle}>🔠 子音學習</div>
         <div style={cardStyle} onClick={() => setPage("flashcards")}>
-  🃏 單字圖卡
-</div>
+          🃏 單字圖卡
+        </div>
         <div style={cardStyle}>💬 句型練習</div>
         <div style={cardStyle}>🎥 AI 動畫課程</div>
         <div style={cardStyle}>📝 測驗中心</div>
@@ -84,16 +106,18 @@ function FlashcardPage({
   setCurrentCard,
   flipped,
   setFlipped,
+  teacherVocabulary,
 }) {
-  const flashcards = [
-    { zh: "蘋果", th: "แอปเปิล", py: "aep-bpen" },
-    { zh: "水", th: "น้ำ", py: "náam" },
-    { zh: "飯", th: "ข้าว", py: "khâao" },
-    { zh: "你好", th: "สวัสดี", py: "sà-wàt-dii" },
-    { zh: "謝謝", th: "ขอบคุณ", py: "khɔ̀ɔp-khun" },
-  ];
+  const flashcards = [...defaultFlashcards, ...teacherVocabulary];
+  const safeCardIndex = currentCard % flashcards.length;
+  const card = flashcards[safeCardIndex];
 
-  const card = flashcards[currentCard];
+  useEffect(() => {
+    if (currentCard >= flashcards.length) {
+      setCurrentCard(0);
+      setFlipped(false);
+    }
+  }, [currentCard, flashcards.length, setCurrentCard, setFlipped]);
 
   function nextCard() {
     setCurrentCard((currentCard + 1) % flashcards.length);
@@ -155,7 +179,7 @@ function FlashcardPage({
       </div>
 
       <p style={{ textAlign: "center", color: "#666", marginTop: "20px" }}>
-        {currentCard + 1} / {flashcards.length}
+        {safeCardIndex + 1} / {flashcards.length}
       </p>
     </div>
   );
@@ -173,11 +197,185 @@ function TeacherPage({ setPage }) {
 
       <div style={gridStyle}>
         <div style={cardStyle}>📚 教材管理</div>
-        <div style={cardStyle}>➕ 新增教材</div>
+        <div style={cardStyle} onClick={() => setPage("vocabulary")}>
+          ➕ 新增單字
+        </div>
         <div style={cardStyle}>👨‍🎓 學生管理</div>
         <div style={cardStyle}>📈 學習進度</div>
         <div style={cardStyle}>📝 測驗題庫</div>
         <div style={cardStyle}>🎥 AI 教材管理</div>
+      </div>
+    </div>
+  );
+}
+
+function VocabularyManagerPage({
+  setPage,
+  teacherVocabulary,
+  setTeacherVocabulary,
+}) {
+  const emptyForm = { zh: "", th: "", py: "" };
+  const [form, setForm] = useState(emptyForm);
+  const [editingId, setEditingId] = useState(null);
+
+  function updateForm(field, value) {
+    setForm({ ...form, [field]: value });
+  }
+
+  function resetForm() {
+    setForm(emptyForm);
+    setEditingId(null);
+  }
+
+  function saveVocabulary(event) {
+    event.preventDefault();
+
+    const vocabularyItem = {
+      zh: form.zh.trim(),
+      th: form.th.trim(),
+      py: form.py.trim(),
+    };
+
+    if (!vocabularyItem.zh || !vocabularyItem.th) {
+      return;
+    }
+
+    if (editingId) {
+      setTeacherVocabulary(
+        teacherVocabulary.map((item) =>
+          item.id === editingId ? { ...item, ...vocabularyItem } : item
+        )
+      );
+    } else {
+      setTeacherVocabulary([
+        ...teacherVocabulary,
+        { id: Date.now().toString(), ...vocabularyItem },
+      ]);
+    }
+
+    resetForm();
+  }
+
+  function editVocabulary(item) {
+    setEditingId(item.id);
+    setForm({ zh: item.zh, th: item.th, py: item.py });
+  }
+
+  function deleteVocabulary(id) {
+    setTeacherVocabulary(teacherVocabulary.filter((item) => item.id !== id));
+
+    if (editingId === id) {
+      resetForm();
+    }
+  }
+
+  return (
+    <div style={pageStyle}>
+      <button style={backButtonStyle} onClick={() => setPage("teacher")}>
+        ← 回老師後台
+      </button>
+
+      <h1 style={titleStyle}>單字管理</h1>
+      <p style={subtitleStyle}>
+        老師新增的單字會自動儲存，並出現在學生的單字圖卡中。
+      </p>
+
+      <div style={teacherPanelStyle}>
+        <div style={tableCardStyle}>
+          <h2>{editingId ? "編輯單字" : "新增單字"}</h2>
+
+          <form onSubmit={saveVocabulary} style={formStyle}>
+            <label style={labelStyle}>
+              中文
+              <input
+                style={inputStyle}
+                value={form.zh}
+                onChange={(event) => updateForm("zh", event.target.value)}
+                placeholder="例如：老師"
+              />
+            </label>
+
+            <label style={labelStyle}>
+              泰文
+              <input
+                style={inputStyle}
+                value={form.th}
+                onChange={(event) => updateForm("th", event.target.value)}
+                placeholder="例如：ครู"
+              />
+            </label>
+
+            <label style={labelStyle}>
+              拼音 / 發音
+              <input
+                style={inputStyle}
+                value={form.py}
+                onChange={(event) => updateForm("py", event.target.value)}
+                placeholder="例如：khruu"
+              />
+            </label>
+
+            <div style={{ display: "flex", alignItems: "end", gap: "10px" }}>
+              <button style={greenButtonStyle} type="submit">
+                {editingId ? "儲存修改" : "新增單字"}
+              </button>
+
+              {editingId && (
+                <button
+                  style={smallButtonStyle}
+                  type="button"
+                  onClick={resetForm}
+                >
+                  取消
+                </button>
+              )}
+            </div>
+          </form>
+        </div>
+
+        <div style={tableCardStyle}>
+          <h2>老師單字庫</h2>
+
+          {teacherVocabulary.length === 0 ? (
+            <p style={{ color: "#666" }}>
+              尚未新增單字，請使用上方表單建立第一張圖卡。
+            </p>
+          ) : (
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <thead>
+                <tr>
+                  <th style={thStyle}>中文</th>
+                  <th style={thStyle}>泰文</th>
+                  <th style={thStyle}>拼音</th>
+                  <th style={thStyle}>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {teacherVocabulary.map((item) => (
+                  <tr key={item.id}>
+                    <td style={tdStyle}>{item.zh}</td>
+                    <td style={tdStyle}>{item.th}</td>
+                    <td style={tdStyle}>{item.py || "—"}</td>
+                    <td style={tdStyle}>
+                      <button
+                        style={smallButtonStyle}
+                        onClick={() => editVocabulary(item)}
+                      >
+                        編輯
+                      </button>
+                      <button
+                        style={dangerButtonStyle}
+                        onClick={() => deleteVocabulary(item.id)}
+                      >
+                        刪除
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -235,6 +433,16 @@ function BookingPage({ setPage }) {
   );
 }
 
+const VOCABULARY_STORAGE_KEY = "thai-learning-teacher-vocabulary";
+
+const defaultFlashcards = [
+  { zh: "蘋果", th: "แอปเปิล", py: "aep-bpen" },
+  { zh: "水", th: "น้ำ", py: "náam" },
+  { zh: "飯", th: "ข้าว", py: "khâao" },
+  { zh: "你好", th: "สวัสดี", py: "sà-wàt-dii" },
+  { zh: "謝謝", th: "ขอบคุณ", py: "khɔ̀ɔp-khun" },
+];
+
 const pageStyle = {
   minHeight: "100vh",
   background: "#f5f7fb",
@@ -267,6 +475,45 @@ const cardStyle = {
   cursor: "pointer",
   textAlign: "center",
   fontSize: "20px",
+};
+
+const teacherPanelStyle = {
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  gap: "24px",
+  marginTop: "30px",
+};
+
+const formStyle = {
+  display: "grid",
+  gridTemplateColumns: "repeat(3, 1fr) auto",
+  gap: "16px",
+  alignItems: "end",
+};
+
+const labelStyle = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "8px",
+  color: "#333",
+  fontWeight: "bold",
+};
+
+const inputStyle = {
+  padding: "12px",
+  border: "1px solid #ddd",
+  borderRadius: "12px",
+  fontSize: "16px",
+};
+
+const dangerButtonStyle = {
+  padding: "12px 24px",
+  margin: "8px",
+  border: "none",
+  borderRadius: "12px",
+  background: "#f44336",
+  color: "white",
+  cursor: "pointer",
 };
 
 const backButtonStyle = {
