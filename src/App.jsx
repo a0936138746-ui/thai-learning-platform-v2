@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
-import { SENTENCE_STORAGE_KEY, VOCABULARY_STORAGE_KEY } from "./data";
+import {
+  QUIZ_STORAGE_KEY,
+  SENTENCE_STORAGE_KEY,
+  VOCABULARY_STORAGE_KEY,
+} from "./data";
 import BookingPage from "./pages/BookingPage";
 import FlashcardPage from "./pages/FlashcardPage";
 import HomePage from "./pages/HomePage";
+import QuizManagerPage from "./pages/QuizManagerPage";
+import QuizPage from "./pages/QuizPage";
 import SentenceManagerPage from "./pages/SentenceManagerPage";
 import SentencePracticePage from "./pages/SentencePracticePage";
 import StudentPage from "./pages/StudentPage";
@@ -21,6 +27,10 @@ function App() {
     const savedSentences = localStorage.getItem(SENTENCE_STORAGE_KEY);
     return savedSentences ? JSON.parse(savedSentences) : [];
   });
+  const [quizQuestions, setQuizQuestions] = useState(() => {
+    const savedQuestions = localStorage.getItem(QUIZ_STORAGE_KEY);
+    return savedQuestions ? JSON.parse(savedQuestions) : [];
+  });
 
   useEffect(() => {
     localStorage.setItem(
@@ -36,8 +46,16 @@ function App() {
     );
   }, [teacherSentences]);
 
+  useEffect(() => {
+    localStorage.setItem(QUIZ_STORAGE_KEY, JSON.stringify(quizQuestions));
+  }, [quizQuestions]);
+
   if (page === "student") {
     return <StudentPage setPage={setPage} />;
+  }
+
+  if (page === "quiz") {
+    return <QuizPage setPage={setPage} />;
   }
 
   if (page === "sentencePractice") {
@@ -68,6 +86,16 @@ function App() {
         setPage={setPage}
         teacherVocabulary={teacherVocabulary}
         setTeacherVocabulary={setTeacherVocabulary}
+      />
+    );
+  }
+
+  if (page === "quizManager") {
+    return (
+      <QuizManagerPage
+        setPage={setPage}
+        quizQuestions={quizQuestions}
+        setQuizQuestions={setQuizQuestions}
       />
     );
   }

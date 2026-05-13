@@ -1,5 +1,6 @@
 export const VOCABULARY_STORAGE_KEY = "thai-learning-teacher-vocabulary";
 export const SENTENCE_STORAGE_KEY = "thai-learning-teacher-sentences";
+export const QUIZ_STORAGE_KEY = "thai-learning-teacher-quiz-questions";
 
 export const defaultFlashcards = [
   { zh: "蘋果", th: "แอปเปิล", py: "aep-bpen" },
