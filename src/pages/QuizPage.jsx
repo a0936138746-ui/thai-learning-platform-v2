@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { QUIZ_STORAGE_KEY } from "../data";
+import { useRef, useState } from "react";
 import {
   answerStyle,
   backButtonStyle,
@@ -13,17 +12,12 @@ import {
   titleStyle,
 } from "../styles";
 
-function loadStoredQuestions() {
-  const savedQuestions = localStorage.getItem(QUIZ_STORAGE_KEY);
-  return savedQuestions ? JSON.parse(savedQuestions) : [];
-}
-
-export default function QuizPage({ setPage }) {
-  const [quizQuestions] = useState(loadStoredQuestions);
+export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [showResult, setShowResult] = useState(false);
-
+  const answeredQuestionsRef = useRef({});
+  const hasRecordedCompletionRef = useRef(false);
 
   if (quizQuestions.length === 0) {
     return (
@@ -57,8 +51,33 @@ export default function QuizPage({ setPage }) {
   );
 
   function chooseAnswer(answer) {
+    const answerIsCorrect = answer === question.correctAnswer;
+
     setSelectedAnswer(answer);
     setShowResult(true);
+
+    answeredQuestionsRef.current = {
+      ...answeredQuestionsRef.current,
+      [question.id || safeQuestionIndex]: answerIsCorrect,
+    };
+
+    const answeredCount = Object.keys(answeredQuestionsRef.current).length;
+
+    if (
+      !hasRecordedCompletionRef.current &&
+      answeredCount === quizQuestions.length
+    ) {
+      const correctAnswers = Object.values(answeredQuestionsRef.current).filter(
+        Boolean
+      ).length;
+
+      onQuizCompleted({
+        totalQuestions: quizQuestions.length,
+        correctAnswers,
+        answeredAt: new Date().toISOString(),
+      });
+      hasRecordedCompletionRef.current = true;
+    }
   }
 
   function nextQuestion() {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  LEARNING_PROGRESS_STORAGE_KEY,
   QUIZ_STORAGE_KEY,
   SENTENCE_STORAGE_KEY,
   VOCABULARY_STORAGE_KEY,
@@ -7,6 +8,7 @@ import {
 import BookingPage from "./pages/BookingPage";
 import FlashcardPage from "./pages/FlashcardPage";
 import HomePage from "./pages/HomePage";
+import LearningProgressPage from "./pages/LearningProgressPage";
 import QuizManagerPage from "./pages/QuizManagerPage";
 import QuizPage from "./pages/QuizPage";
 import SentenceManagerPage from "./pages/SentenceManagerPage";
@@ -15,22 +17,36 @@ import StudentPage from "./pages/StudentPage";
 import TeacherPage from "./pages/TeacherPage";
 import VocabularyManagerPage from "./pages/VocabularyManagerPage";
 
+function loadStoredArray(storageKey) {
+  try {
+    const savedValue = localStorage.getItem(storageKey);
+    if (!savedValue) {
+      return [];
+    }
+
+    const parsedValue = JSON.parse(savedValue);
+    return Array.isArray(parsedValue) ? parsedValue : [];
+  } catch {
+    return [];
+  }
+}
+
 function App() {
   const [page, setPage] = useState("home");
   const [currentCard, setCurrentCard] = useState(0);
   const [flipped, setFlipped] = useState(false);
-  const [teacherVocabulary, setTeacherVocabulary] = useState(() => {
-    const savedVocabulary = localStorage.getItem(VOCABULARY_STORAGE_KEY);
-    return savedVocabulary ? JSON.parse(savedVocabulary) : [];
-  });
-  const [teacherSentences, setTeacherSentences] = useState(() => {
-    const savedSentences = localStorage.getItem(SENTENCE_STORAGE_KEY);
-    return savedSentences ? JSON.parse(savedSentences) : [];
-  });
-  const [quizQuestions, setQuizQuestions] = useState(() => {
-    const savedQuestions = localStorage.getItem(QUIZ_STORAGE_KEY);
-    return savedQuestions ? JSON.parse(savedQuestions) : [];
-  });
+  const [teacherVocabulary, setTeacherVocabulary] = useState(() =>
+    loadStoredArray(VOCABULARY_STORAGE_KEY)
+  );
+  const [teacherSentences, setTeacherSentences] = useState(() =>
+    loadStoredArray(SENTENCE_STORAGE_KEY)
+  );
+  const [quizQuestions, setQuizQuestions] = useState(() =>
+    loadStoredArray(QUIZ_STORAGE_KEY)
+  );
+  const [learningProgress, setLearningProgress] = useState(() =>
+    loadStoredArray(LEARNING_PROGRESS_STORAGE_KEY)
+  );
 
   useEffect(() => {
     localStorage.setItem(
@@ -50,12 +66,39 @@ function App() {
     localStorage.setItem(QUIZ_STORAGE_KEY, JSON.stringify(quizQuestions));
   }, [quizQuestions]);
 
+  useEffect(() => {
+    localStorage.setItem(
+      LEARNING_PROGRESS_STORAGE_KEY,
+      JSON.stringify(learningProgress)
+    );
+  }, [learningProgress]);
+
+  function saveQuizProgress(record) {
+    setLearningProgress((currentProgress) =>
+      [
+        {
+          id: Date.now().toString(),
+          totalQuestions: record.totalQuestions,
+          correctAnswers: record.correctAnswers,
+          answeredAt: record.answeredAt,
+        },
+        ...currentProgress,
+      ].slice(0, 20)
+    );
+  }
+
   if (page === "student") {
     return <StudentPage setPage={setPage} />;
   }
 
   if (page === "quiz") {
-    return <QuizPage setPage={setPage} />;
+    return (
+      <QuizPage
+        setPage={setPage}
+        quizQuestions={quizQuestions}
+        onQuizCompleted={saveQuizProgress}
+      />
+    );
   }
 
   if (page === "sentencePractice") {
@@ -81,13 +124,7 @@ function App() {
   }
 
   if (page === "teacher") {
-    return (
-      <TeacherPage
-        setPage={setPage}
-        teacherVocabulary={teacherVocabulary}
-        setTeacherVocabulary={setTeacherVocabulary}
-      />
-    );
+    return <TeacherPage setPage={setPage} />;
   }
 
   if (page === "quizManager") {
@@ -96,6 +133,15 @@ function App() {
         setPage={setPage}
         quizQuestions={quizQuestions}
         setQuizQuestions={setQuizQuestions}
+      />
+    );
+  }
+
+  if (page === "learningProgress") {
+    return (
+      <LearningProgressPage
+        setPage={setPage}
+        learningProgress={learningProgress}
       />
     );
   }
