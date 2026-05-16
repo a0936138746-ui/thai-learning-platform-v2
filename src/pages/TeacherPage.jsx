@@ -29,6 +29,9 @@ export default function TeacherPage({ setPage }) {
         <div style={cardStyle} onClick={() => setPage("learningProgress")}>
           📈 學習紀錄
         </div>
+        <div style={cardStyle} onClick={() => setPage("booking")}>
+          📅 課程預約
+        </div>
         <div style={cardStyle} onClick={() => setPage("quizManager")}>
           📝 測驗題庫
         </div>
