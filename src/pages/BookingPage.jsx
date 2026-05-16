@@ -83,9 +83,14 @@ export default function BookingPage({ setPage }) {
 
   return (
     <div style={pageStyle}>
-      <button style={backButtonStyle} onClick={() => setPage("home")}>
-        ← 回首頁
-      </button>
+      <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+        <button style={backButtonStyle} onClick={() => setPage("home")}>
+          ← 回首頁
+        </button>
+        <button style={smallButtonStyle} onClick={() => setPage("teacher")}>
+          ← 回老師後台
+        </button>
+      </div>
 
       <h1 style={titleStyle}>課程預約</h1>
       <p style={subtitleStyle}>新增與查看學生預約資料</p>
