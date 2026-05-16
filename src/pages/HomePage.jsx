@@ -25,18 +25,31 @@ const introListStyle = {
   paddingLeft: "20px",
 };
 
+const demoBadgeStyle = {
+  display: "inline-block",
+  padding: "6px 12px",
+  borderRadius: "999px",
+  background: "#fff8e1",
+  color: "#795548",
+  fontWeight: "bold",
+  marginBottom: "16px",
+};
+
 export default function HomePage({ setPage }) {
   return (
     <div style={pageStyle}>
+      <div style={{ textAlign: "center" }}>
+        <span style={demoBadgeStyle}>Demo 版</span>
+      </div>
+
       <h1 style={titleStyle}>泰文／中文學習平台 MVP</h1>
       <p style={subtitleStyle}>
-        給老師建立教材、學生練習內容，並追蹤學習與預約狀態的 demo 版本。
+        老師可以建立教材，學生可用手機練習單字、句型與測驗，系統可記錄學習成果與課程預約。
       </p>
 
       <section style={introStyle}>
         <p>
-          這個平台適合老師建立雙語教材，學生可以練習單字圖卡、句型與測驗，
-          老師也可以查看學生最近的學習紀錄與課程預約。
+          這是一個原型展示版本，聚焦在教材管理、學生練習、學習紀錄與課程預約的核心流程。
         </p>
         <ul style={introListStyle}>
           <li>老師可管理單字、句型與測驗題庫。</li>
@@ -47,17 +60,17 @@ export default function HomePage({ setPage }) {
 
       <div style={homeGridStyle}>
         <div style={cardStyle} onClick={() => setPage("student")}>
-          <h2>學生學習中心</h2>
+          <h2>我要學習</h2>
           <p>練習單字圖卡、句型與測驗。</p>
         </div>
 
         <div style={cardStyle} onClick={() => setPage("teacher")}>
-          <h2>老師後台管理</h2>
+          <h2>老師管理教材</h2>
           <p>管理教材、測驗、學習紀錄與預約。</p>
         </div>
 
         <div style={cardStyle} onClick={() => setPage("booking")}>
-          <h2>課程預約</h2>
+          <h2>預約課程</h2>
           <p>新增、查看與刪除學生預約資料。</p>
         </div>
       </div>
