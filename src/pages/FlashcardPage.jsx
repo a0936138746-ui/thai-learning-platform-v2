@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { defaultFlashcards } from "../data";
 import { backButtonStyle, cardStyle, greenButtonStyle, pageStyle, smallButtonStyle, subtitleStyle, titleStyle } from "../styles";
 
 export default function FlashcardPage({
@@ -10,16 +9,30 @@ export default function FlashcardPage({
   setFlipped,
   teacherVocabulary,
 }) {
-  const flashcards = [...defaultFlashcards, ...teacherVocabulary];
-  const safeCardIndex = currentCard % flashcards.length;
-  const card = flashcards[safeCardIndex];
+  const flashcards = teacherVocabulary;
 
   useEffect(() => {
-    if (currentCard >= flashcards.length) {
+    if (flashcards.length > 0 && currentCard >= flashcards.length) {
       setCurrentCard(0);
       setFlipped(false);
     }
   }, [currentCard, flashcards.length, setCurrentCard, setFlipped]);
+
+  if (flashcards.length === 0) {
+    return (
+      <div style={pageStyle}>
+        <button style={backButtonStyle} onClick={() => setPage("student")}>
+          ← 回學生學習中心
+        </button>
+
+        <h1 style={titleStyle}>🃏 單字圖卡練習</h1>
+        <p style={subtitleStyle}>目前尚未有單字資料，請先到老師後台新增單字。</p>
+      </div>
+    );
+  }
+
+  const safeCardIndex = currentCard % flashcards.length;
+  const card = flashcards[safeCardIndex];
 
   function nextCard() {
     setCurrentCard((currentCard + 1) % flashcards.length);

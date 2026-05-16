@@ -1,11 +1,24 @@
 import { useState } from "react";
-import { defaultSentences } from "../data";
 import { answerStyle, backButtonStyle, greenButtonStyle, hintStyle, pageStyle, sentencePromptStyle, smallButtonStyle, subtitleStyle, tableCardStyle, titleStyle } from "../styles";
 
 export default function SentencePracticePage({ setPage, teacherSentences }) {
-  const practiceSentences = [...defaultSentences, ...teacherSentences];
+  const practiceSentences = teacherSentences;
   const [currentSentence, setCurrentSentence] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
+
+  if (practiceSentences.length === 0) {
+    return (
+      <div style={pageStyle}>
+        <button style={backButtonStyle} onClick={() => setPage("student")}>
+          ← 回學生學習中心
+        </button>
+
+        <h1 style={titleStyle}>💬 句型練習</h1>
+        <p style={subtitleStyle}>目前尚未有句型資料，請先到老師後台新增句型。</p>
+      </div>
+    );
+  }
+
   const safeSentenceIndex = currentSentence % practiceSentences.length;
   const sentence = practiceSentences[safeSentenceIndex];
 

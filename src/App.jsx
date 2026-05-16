@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import {
+  defaultFlashcards,
+  defaultQuizQuestions,
+  defaultSentences,
   LEARNING_PROGRESS_STORAGE_KEY,
   QUIZ_STORAGE_KEY,
   SENTENCE_STORAGE_KEY,
@@ -17,17 +20,17 @@ import StudentPage from "./pages/StudentPage";
 import TeacherPage from "./pages/TeacherPage";
 import VocabularyManagerPage from "./pages/VocabularyManagerPage";
 
-function loadStoredArray(storageKey) {
+function loadStoredArray(storageKey, defaultValue = []) {
   try {
     const savedValue = localStorage.getItem(storageKey);
-    if (!savedValue) {
-      return [];
+    if (savedValue === null) {
+      return defaultValue;
     }
 
     const parsedValue = JSON.parse(savedValue);
-    return Array.isArray(parsedValue) ? parsedValue : [];
+    return Array.isArray(parsedValue) ? parsedValue : defaultValue;
   } catch {
-    return [];
+    return defaultValue;
   }
 }
 
@@ -36,13 +39,13 @@ function App() {
   const [currentCard, setCurrentCard] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [teacherVocabulary, setTeacherVocabulary] = useState(() =>
-    loadStoredArray(VOCABULARY_STORAGE_KEY)
+    loadStoredArray(VOCABULARY_STORAGE_KEY, defaultFlashcards)
   );
   const [teacherSentences, setTeacherSentences] = useState(() =>
-    loadStoredArray(SENTENCE_STORAGE_KEY)
+    loadStoredArray(SENTENCE_STORAGE_KEY, defaultSentences)
   );
   const [quizQuestions, setQuizQuestions] = useState(() =>
-    loadStoredArray(QUIZ_STORAGE_KEY)
+    loadStoredArray(QUIZ_STORAGE_KEY, defaultQuizQuestions)
   );
   const [learningProgress, setLearningProgress] = useState(() =>
     loadStoredArray(LEARNING_PROGRESS_STORAGE_KEY)
