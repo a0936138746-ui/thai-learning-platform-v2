@@ -57,33 +57,56 @@ export default function FlashcardPage({
         style={{
           ...cardStyle,
           maxWidth: "480px",
-          minHeight: "260px",
-          margin: "40px auto",
+          width: "100%",
+          minHeight: "clamp(190px, 45vw, 260px)",
+          margin: "clamp(24px, 7vw, 40px) auto",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          fontSize: "42px",
+          fontSize: "clamp(30px, 11vw, 42px)",
+          lineHeight: 1.25,
         }}
         onClick={() => setFlipped(!flipped)}
       >
         {flipped ? (
           <div>
             <div>{card.th}</div>
-            <div style={{ fontSize: "22px", color: "#666", marginTop: "12px" }}>
+            <div
+              style={{
+                fontSize: "clamp(18px, 5vw, 22px)",
+                color: "#666",
+                marginTop: "12px",
+                lineHeight: 1.35,
+              }}
+            >
               {card.py}
             </div>
           </div>
         ) : (
           <div>
             <div>{card.zh}</div>
-            <div style={{ fontSize: "18px", color: "#888", marginTop: "12px" }}>
+            <div
+              style={{
+                fontSize: "clamp(16px, 4.5vw, 18px)",
+                color: "#888",
+                marginTop: "12px",
+                lineHeight: 1.35,
+              }}
+            >
               點一下看泰文
             </div>
           </div>
         )}
       </div>
 
-      <div style={{ textAlign: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexWrap: "wrap",
+          gap: "8px",
+        }}
+      >
         <button style={smallButtonStyle} onClick={prevCard}>
           上一張
         </button>

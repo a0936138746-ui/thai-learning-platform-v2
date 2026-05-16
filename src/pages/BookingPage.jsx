@@ -102,7 +102,7 @@ export default function BookingPage({ setPage }) {
           onSubmit={saveBooking}
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(220px, 100%), 1fr))",
             gap: "16px",
             alignItems: "end",
           }}
@@ -157,7 +157,14 @@ export default function BookingPage({ setPage }) {
             />
           </label>
 
-          <div style={{ gridColumn: "1 / -1" }}>
+          <div
+            style={{
+              gridColumn: "1 / -1",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "8px",
+            }}
+          >
             <button style={greenButtonStyle} type="submit">
               新增預約
             </button>

@@ -128,7 +128,13 @@ export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
 
         {showResult && (
           <div style={{ ...answerStyle, marginTop: "24px" }}>
-            <div style={{ fontSize: "28px", marginBottom: "12px" }}>
+            <div
+              style={{
+                fontSize: "clamp(22px, 7vw, 28px)",
+                lineHeight: 1.3,
+                marginBottom: "12px",
+              }}
+            >
               {isCorrect ? "✅ 答對了！" : "❌ 答錯了"}
             </div>
             <p style={hintStyle}>
@@ -137,7 +143,15 @@ export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
           </div>
         )}
 
-        <div style={{ textAlign: "center", marginTop: "24px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            gap: "8px",
+            marginTop: "24px",
+          }}
+        >
           <button style={smallButtonStyle} onClick={prevQuestion}>
             上一題
           </button>

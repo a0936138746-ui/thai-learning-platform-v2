@@ -54,7 +54,13 @@ export default function SentencePracticePage({ setPage, teacherSentences }) {
 
         {showAnswer ? (
           <div style={answerStyle}>
-            <div style={{ fontSize: "32px", marginBottom: "12px" }}>
+            <div
+              style={{
+                fontSize: "clamp(24px, 8vw, 32px)",
+                lineHeight: 1.3,
+                marginBottom: "12px",
+              }}
+            >
               {sentence.th}
             </div>
             <div style={{ color: "#666" }}>{sentence.py || "請跟老師練習發音"}</div>
@@ -65,7 +71,15 @@ export default function SentencePracticePage({ setPage, teacherSentences }) {
           </button>
         )}
 
-        <div style={{ textAlign: "center", marginTop: "24px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            gap: "8px",
+            marginTop: "24px",
+          }}
+        >
           <button style={smallButtonStyle} onClick={prevSentence}>
             上一句
           </button>

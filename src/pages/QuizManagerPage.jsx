@@ -179,7 +179,14 @@ export default function QuizManagerPage({
               />
             </label>
 
-            <div style={{ display: "flex", alignItems: "end", gap: "10px" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "end",
+                flexWrap: "wrap",
+                gap: "10px",
+              }}
+            >
               <button style={greenButtonStyle} type="submit">
                 {editingId ? "儲存修改" : "新增題目"}
               </button>

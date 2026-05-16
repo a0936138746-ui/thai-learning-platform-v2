@@ -20,8 +20,9 @@ const heroTextStyle = {
   maxWidth: "780px",
   margin: "0 auto",
   color: "#555",
-  fontSize: "18px",
+  fontSize: "clamp(16px, 4vw, 18px)",
   lineHeight: 1.7,
+  overflowWrap: "break-word",
 };
 
 const homeTitleStyle = {
@@ -33,7 +34,7 @@ const homeTitleStyle = {
 
 const entranceGridStyle = {
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
+  gridTemplateColumns: "repeat(auto-fit, minmax(min(230px, 100%), 1fr))",
   gap: "18px",
   maxWidth: "980px",
   margin: "0 auto 32px",
@@ -51,7 +52,7 @@ const sectionHeaderStyle = {
 
 const infoGridStyle = {
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+  gridTemplateColumns: "repeat(auto-fit, minmax(min(220px, 100%), 1fr))",
   gap: "16px",
 };
 
@@ -62,6 +63,10 @@ const infoCardStyle = {
   boxShadow: "0 5px 20px rgba(0,0,0,0.06)",
   textAlign: "left",
   lineHeight: 1.6,
+  width: "100%",
+  maxWidth: "100%",
+  boxSizing: "border-box",
+  overflowWrap: "break-word",
 };
 
 const mutedTextStyle = {
