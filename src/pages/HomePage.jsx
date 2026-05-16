@@ -24,6 +24,13 @@ const heroTextStyle = {
   lineHeight: 1.7,
 };
 
+const homeTitleStyle = {
+  ...titleStyle,
+  fontSize: "clamp(30px, 8vw, 42px)",
+  lineHeight: 1.2,
+  overflowWrap: "break-word",
+};
+
 const entranceGridStyle = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
@@ -72,7 +79,7 @@ export default function HomePage({ setPage }) {
     <div style={pageStyle}>
       <section style={heroStyle}>
         <span style={demoBadgeStyle}>Demo 版</span>
-        <h1 style={titleStyle}>泰文／中文學習平台 MVP</h1>
+        <h1 style={homeTitleStyle}>泰文／中文學習平台 MVP</h1>
         <p style={subtitleStyle}>
           老師可以建立教材，學生可用手機練習單字、句型與測驗，系統可記錄學習成果與課程預約。
         </p>
