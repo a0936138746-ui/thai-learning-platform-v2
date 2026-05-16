@@ -212,7 +212,13 @@ export default function QuizManagerPage({
               尚未新增題目，請使用上方表單建立第一題選擇題。
             </p>
           ) : (
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <table
+              style={{
+                width: "100%",
+                minWidth: "820px",
+                borderCollapse: "collapse",
+              }}
+            >
               <thead>
                 <tr>
                   <th style={thStyle}>題目</th>

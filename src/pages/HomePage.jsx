@@ -2,7 +2,7 @@ import { cardStyle, pageStyle, subtitleStyle, titleStyle } from "../styles";
 
 const heroStyle = {
   maxWidth: "980px",
-  margin: "0 auto 28px",
+  margin: "0 auto clamp(20px, 5vw, 28px)",
   textAlign: "center",
 };
 
@@ -35,14 +35,14 @@ const homeTitleStyle = {
 const entranceGridStyle = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(min(230px, 100%), 1fr))",
-  gap: "18px",
+  gap: "clamp(12px, 4vw, 18px)",
   maxWidth: "980px",
-  margin: "0 auto 32px",
+  margin: "0 auto clamp(22px, 6vw, 32px)",
 };
 
 const sectionStyle = {
   maxWidth: "980px",
-  margin: "0 auto 28px",
+  margin: "0 auto clamp(20px, 5vw, 28px)",
 };
 
 const sectionHeaderStyle = {
@@ -53,13 +53,13 @@ const sectionHeaderStyle = {
 const infoGridStyle = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(min(220px, 100%), 1fr))",
-  gap: "16px",
+  gap: "clamp(12px, 4vw, 16px)",
 };
 
 const infoCardStyle = {
   background: "white",
-  padding: "22px",
-  borderRadius: "18px",
+  padding: "clamp(16px, 4vw, 22px)",
+  borderRadius: "clamp(14px, 4vw, 18px)",
   boxShadow: "0 5px 20px rgba(0,0,0,0.06)",
   textAlign: "left",
   lineHeight: 1.6,

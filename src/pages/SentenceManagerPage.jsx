@@ -152,7 +152,13 @@ export default function SentenceManagerPage({ setPage, teacherSentences, setTeac
               尚未新增句子，請使用上方表單建立第一個句型練習。
             </p>
           ) : (
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <table
+              style={{
+                width: "100%",
+                minWidth: "760px",
+                borderCollapse: "collapse",
+              }}
+            >
               <thead>
                 <tr>
                   <th style={thStyle}>中文</th>

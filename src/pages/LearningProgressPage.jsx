@@ -32,7 +32,13 @@ export default function LearningProgressPage({ setPage, learningProgress }) {
         {learningProgress.length === 0 ? (
           <p style={{ color: "#666" }}>目前尚未有測驗作答紀錄。</p>
         ) : (
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <table
+            style={{
+              width: "100%",
+              minWidth: "560px",
+              borderCollapse: "collapse",
+            }}
+          >
             <thead>
               <tr>
                 <th style={thStyle}>最近作答時間</th>

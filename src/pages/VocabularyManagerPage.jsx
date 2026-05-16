@@ -140,7 +140,13 @@ export default function VocabularyManagerPage({
               尚未新增單字，請使用上方表單建立第一張圖卡。
             </p>
           ) : (
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <table
+              style={{
+                width: "100%",
+                minWidth: "620px",
+                borderCollapse: "collapse",
+              }}
+            >
               <thead>
                 <tr>
                   <th style={thStyle}>中文</th>

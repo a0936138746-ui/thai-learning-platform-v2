@@ -10,9 +10,9 @@ export const pageStyle = {
 
 export const titleStyle = {
   textAlign: "center",
-  fontSize: "clamp(30px, 8vw, 42px)",
-  lineHeight: 1.2,
-  margin: "24px 0 14px",
+  fontSize: "clamp(28px, 7.5vw, 42px)",
+  lineHeight: 1.25,
+  margin: "clamp(18px, 5vw, 24px) 0 14px",
   overflowWrap: "break-word",
 };
 
@@ -27,14 +27,14 @@ export const subtitleStyle = {
 export const gridStyle = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(min(220px, 100%), 1fr))",
-  gap: "20px",
+  gap: "clamp(12px, 4vw, 20px)",
   width: "100%",
 };
 
 export const cardStyle = {
   background: "white",
-  padding: "clamp(20px, 5vw, 30px)",
-  borderRadius: "20px",
+  padding: "clamp(16px, 4.5vw, 30px)",
+  borderRadius: "clamp(14px, 4vw, 20px)",
   boxShadow: "0 5px 20px rgba(0,0,0,0.08)",
   cursor: "pointer",
   textAlign: "center",
@@ -49,8 +49,8 @@ export const cardStyle = {
 export const teacherPanelStyle = {
   display: "grid",
   gridTemplateColumns: "1fr",
-  gap: "24px",
-  marginTop: "30px",
+  gap: "clamp(14px, 4vw, 24px)",
+  marginTop: "clamp(18px, 5vw, 30px)",
 };
 
 export const formStyle = {
@@ -76,7 +76,7 @@ export const labelStyle = {
 };
 
 export const inputStyle = {
-  padding: "12px",
+  padding: "clamp(10px, 3vw, 12px)",
   border: "1px solid #ddd",
   borderRadius: "12px",
   fontSize: "16px",
@@ -120,8 +120,8 @@ export const answerStyle = {
 };
 
 export const dangerButtonStyle = {
-  padding: "12px 20px",
-  margin: "6px",
+  padding: "clamp(10px, 3vw, 12px) clamp(14px, 4vw, 20px)",
+  margin: "4px",
   border: "none",
   borderRadius: "12px",
   background: "#f44336",
@@ -129,10 +129,11 @@ export const dangerButtonStyle = {
   cursor: "pointer",
   maxWidth: "100%",
   whiteSpace: "normal",
+  lineHeight: 1.35,
 };
 
 export const backButtonStyle = {
-  padding: "12px 20px",
+  padding: "clamp(10px, 3vw, 12px) clamp(14px, 4vw, 20px)",
   border: "none",
   borderRadius: "12px",
   background: "#333",
@@ -140,12 +141,13 @@ export const backButtonStyle = {
   cursor: "pointer",
   maxWidth: "100%",
   whiteSpace: "normal",
+  lineHeight: 1.35,
 };
 
 export const tableCardStyle = {
   background: "white",
-  padding: "clamp(18px, 5vw, 30px)",
-  borderRadius: "20px",
+  padding: "clamp(14px, 4vw, 30px)",
+  borderRadius: "clamp(14px, 4vw, 20px)",
   boxShadow: "0 5px 20px rgba(0,0,0,0.08)",
   width: "100%",
   maxWidth: "100%",
@@ -159,6 +161,7 @@ export const thStyle = {
   textAlign: "left",
   fontSize: "clamp(14px, 3.5vw, 16px)",
   lineHeight: 1.4,
+  whiteSpace: "nowrap",
 };
 
 export const tdStyle = {
@@ -166,22 +169,25 @@ export const tdStyle = {
   borderBottom: "1px solid #eee",
   fontSize: "clamp(14px, 3.5vw, 16px)",
   lineHeight: 1.4,
+  whiteSpace: "nowrap",
+  verticalAlign: "top",
 };
 
 export const smallButtonStyle = {
-  padding: "12px 20px",
-  margin: "6px",
+  padding: "clamp(10px, 3vw, 12px) clamp(14px, 4vw, 20px)",
+  margin: "4px",
   border: "none",
   borderRadius: "12px",
   background: "#ddd",
   cursor: "pointer",
   maxWidth: "100%",
   whiteSpace: "normal",
+  lineHeight: 1.35,
 };
 
 export const greenButtonStyle = {
-  padding: "12px 20px",
-  margin: "6px",
+  padding: "clamp(10px, 3vw, 12px) clamp(14px, 4vw, 20px)",
+  margin: "4px",
   border: "none",
   borderRadius: "12px",
   background: "#4caf50",
@@ -189,4 +195,5 @@ export const greenButtonStyle = {
   cursor: "pointer",
   maxWidth: "100%",
   whiteSpace: "normal",
+  lineHeight: 1.35,
 };

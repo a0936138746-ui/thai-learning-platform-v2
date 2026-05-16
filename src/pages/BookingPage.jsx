@@ -185,7 +185,13 @@ export default function BookingPage({ setPage }) {
         {bookings.length === 0 ? (
           <p style={{ color: "#666" }}>目前尚未有預約資料。</p>
         ) : (
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <table
+            style={{
+              width: "100%",
+              minWidth: "720px",
+              borderCollapse: "collapse",
+            }}
+          >
             <thead>
               <tr>
                 <th style={thStyle}>日期</th>
