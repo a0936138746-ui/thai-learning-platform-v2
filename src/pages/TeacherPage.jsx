@@ -7,6 +7,10 @@ import {
   titleStyle,
 } from "../styles";
 
+function showComingSoon() {
+  alert("此功能尚未開放，敬請期待");
+}
+
 export default function TeacherPage({ setPage }) {
   return (
     <div style={pageStyle}>
@@ -18,14 +22,18 @@ export default function TeacherPage({ setPage }) {
       <p style={subtitleStyle}>教材管理 / 學生管理 / 上課紀錄</p>
 
       <div style={gridStyle}>
-        <div style={cardStyle}>📚 教材管理</div>
+        <div style={cardStyle} onClick={showComingSoon}>
+          📚 教材管理
+        </div>
         <div style={cardStyle} onClick={() => setPage("vocabulary")}>
           🃏 單字管理
         </div>
         <div style={cardStyle} onClick={() => setPage("sentences")}>
           💬 句型管理
         </div>
-        <div style={cardStyle}>🎥 AI 教材管理</div>
+        <div style={cardStyle} onClick={showComingSoon}>
+          🎥 AI 教材管理
+        </div>
         <div style={cardStyle} onClick={() => setPage("learningProgress")}>
           📈 學習紀錄
         </div>
@@ -35,7 +43,9 @@ export default function TeacherPage({ setPage }) {
         <div style={cardStyle} onClick={() => setPage("quizManager")}>
           📝 測驗題庫
         </div>
-        <div style={cardStyle}>🤖 AI 教材生成</div>
+        <div style={cardStyle} onClick={showComingSoon}>
+          🤖 AI 教材生成
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,9 @@
 import { backButtonStyle, cardStyle, gridStyle, pageStyle, subtitleStyle, titleStyle } from "../styles";
 
+function showComingSoon() {
+  alert("此功能尚未開放，敬請期待");
+}
+
 export default function StudentPage({ setPage }) {
   return (
     <div style={pageStyle}>
@@ -11,15 +15,21 @@ export default function StudentPage({ setPage }) {
       <p style={subtitleStyle}>選擇今天要練習的內容</p>
 
       <div style={gridStyle}>
-        <div style={cardStyle}>🔤 母音學習</div>
-        <div style={cardStyle}>🔠 子音學習</div>
+        <div style={cardStyle} onClick={showComingSoon}>
+          🔤 母音學習
+        </div>
+        <div style={cardStyle} onClick={showComingSoon}>
+          🔠 子音學習
+        </div>
         <div style={cardStyle} onClick={() => setPage("flashcards")}>
           🃏 單字圖卡
         </div>
         <div style={cardStyle} onClick={() => setPage("sentencePractice")}>
           💬 句型練習
         </div>
-        <div style={cardStyle}>🎥 AI 動畫課程</div>
+        <div style={cardStyle} onClick={showComingSoon}>
+          🎥 AI 動畫課程
+        </div>
         <div style={cardStyle} onClick={() => setPage("quiz")}>
           📝 測驗中心
         </div>
