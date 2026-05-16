@@ -1,4 +1,21 @@
+import {
+  BOOKING_STORAGE_KEY,
+  LEARNING_PROGRESS_STORAGE_KEY,
+  QUIZ_STORAGE_KEY,
+  SENTENCE_STORAGE_KEY,
+  VOCABULARY_STORAGE_KEY,
+} from "../data";
 import { cardStyle, pageStyle, subtitleStyle, titleStyle } from "../styles";
+
+const DEMO_VERSION = "Demo v2026.05.16";
+
+const DEMO_STORAGE_KEYS = [
+  VOCABULARY_STORAGE_KEY,
+  SENTENCE_STORAGE_KEY,
+  QUIZ_STORAGE_KEY,
+  LEARNING_PROGRESS_STORAGE_KEY,
+  BOOKING_STORAGE_KEY,
+];
 
 const heroStyle = {
   maxWidth: "980px",
@@ -14,6 +31,31 @@ const demoBadgeStyle = {
   color: "#795548",
   fontWeight: "bold",
   marginBottom: "16px",
+};
+
+const versionPanelStyle = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  flexWrap: "wrap",
+  gap: "10px",
+  marginTop: "18px",
+};
+
+const versionTextStyle = {
+  color: "#666",
+  fontSize: "14px",
+  lineHeight: 1.5,
+};
+
+const refreshButtonStyle = {
+  padding: "10px 14px",
+  border: "1px solid #ddd",
+  borderRadius: "999px",
+  background: "white",
+  color: "#333",
+  cursor: "pointer",
+  lineHeight: 1.35,
 };
 
 const heroTextStyle = {
@@ -79,11 +121,32 @@ const roadmapStyle = {
   borderLeft: "5px solid #4caf50",
 };
 
+async function reloadLatestDemo() {
+  const shouldReload = confirm(
+    "將清除本機 demo 資料並重新載入最新版，是否繼續？"
+  );
+
+  if (!shouldReload) {
+    return;
+  }
+
+  DEMO_STORAGE_KEYS.forEach((storageKey) => {
+    localStorage.removeItem(storageKey);
+  });
+
+  if ("caches" in window) {
+    const cacheNames = await window.caches.keys();
+    await Promise.all(cacheNames.map((cacheName) => window.caches.delete(cacheName)));
+  }
+
+  window.location.replace(`${window.location.pathname}?refresh=${Date.now()}`);
+}
+
 export default function HomePage({ setPage }) {
   return (
     <div style={pageStyle}>
       <section style={heroStyle}>
-        <span style={demoBadgeStyle}>Demo 版</span>
+        <span style={demoBadgeStyle}>{DEMO_VERSION}</span>
         <h1 style={homeTitleStyle}>泰文／中文學習平台 MVP</h1>
         <p style={subtitleStyle}>
           老師可以建立教材，學生可用手機練習單字、句型與測驗，系統可記錄學習成果與課程預約。
@@ -91,6 +154,14 @@ export default function HomePage({ setPage }) {
         <p style={heroTextStyle}>
           這是一個展示用原型，聚焦在語言教學最常見的三件事：老師快速建立內容、學生能反覆練習、管理端能看到學習與預約狀態。
         </p>
+        <div style={versionPanelStyle}>
+          <span style={versionTextStyle}>
+            建議使用 Chrome / Safari 開啟，以獲得最佳體驗。
+          </span>
+          <button style={refreshButtonStyle} onClick={reloadLatestDemo}>
+            重新載入最新版
+          </button>
+        </div>
       </section>
 
       <div style={entranceGridStyle}>
