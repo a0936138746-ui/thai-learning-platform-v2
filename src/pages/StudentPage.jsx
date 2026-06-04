@@ -7,6 +7,11 @@ import {
   subtitleStyle,
   titleStyle,
 } from "../styles";
+import {
+  collectCourseCategories,
+  countItemsByCategory,
+  getCourseMeta,
+} from "../courseConfig";
 
 const shellStyle = {
   maxWidth: "1080px",
@@ -115,40 +120,6 @@ const comingSoonCardStyle = {
   border: "1px solid #e5e7eb",
 };
 
-const COURSE_ORDER = [
-  "問候",
-  "餐廳",
-  "交通",
-  "住宿",
-  "方向位置",
-  "購物",
-  "旅遊",
-  "緊急狀況",
-  "數字",
-  "日常生活",
-];
-
-function countByCategory(items = []) {
-  return items.reduce((counts, item) => {
-    const category = item.category || "未分類";
-    counts[category] = (counts[category] || 0) + 1;
-    return counts;
-  }, {});
-}
-
-function collectCategories(vocabularyCounts, sentenceCounts, quizCounts) {
-  const allCategories = new Set([
-    ...Object.keys(vocabularyCounts),
-    ...Object.keys(sentenceCounts),
-    ...Object.keys(quizCounts),
-  ]);
-
-  return [
-    ...COURSE_ORDER.filter((category) => allCategories.has(category)),
-    ...Array.from(allCategories).filter((category) => !COURSE_ORDER.includes(category)),
-  ];
-}
-
 function showComingSoon() {
   alert("這個功能還在排程中，會等主要學習流程穩定後再加入。");
 }
@@ -160,10 +131,10 @@ export default function StudentPage({
   teacherSentences,
   quizQuestions,
 }) {
-  const vocabularyCounts = countByCategory(teacherVocabulary);
-  const sentenceCounts = countByCategory(teacherSentences);
-  const quizCounts = countByCategory(quizQuestions);
-  const courseCategories = collectCategories(
+  const vocabularyCounts = countItemsByCategory(teacherVocabulary);
+  const sentenceCounts = countItemsByCategory(teacherSentences);
+  const quizCounts = countItemsByCategory(quizQuestions);
+  const courseCategories = collectCourseCategories(
     vocabularyCounts,
     sentenceCounts,
     quizCounts
@@ -206,8 +177,9 @@ export default function StudentPage({
           {courseCategories.map((category, index) => (
             <article key={category} style={chapterCardStyle}>
               <span style={badgeStyle}>第 {index + 1} 章</span>
-              <h2 style={cardTitleStyle}>{category}</h2>
-              <p style={cardTextStyle}>
+              <h2 style={cardTitleStyle}>{getCourseMeta(category).label}</h2>
+              <p style={cardTextStyle}>{getCourseMeta(category).description}</p>
+              <p style={{ ...cardTextStyle, marginTop: "10px" }}>
                 {vocabularyCounts[category] || 0} 個字卡、{sentenceCounts[category] || 0} 個句型、{quizCounts[category] || 0} 題測驗
               </p>
 
