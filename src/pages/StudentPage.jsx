@@ -145,6 +145,11 @@ export default function StudentPage({
     setPage(nextPage);
   }
 
+  function openCourse(category) {
+    setStudyCategory(category);
+    setPage("course");
+  }
+
   return (
     <div style={pageStyle}>
       <main style={shellStyle}>
@@ -186,6 +191,12 @@ export default function StudentPage({
               <div style={actionRowStyle}>
                 <button
                   style={greenButtonStyle}
+                  onClick={() => openCourse(category)}
+                >
+                  進入章節
+                </button>
+                <button
+                  style={smallButtonStyle}
                   onClick={() => openPractice("flashcards", category)}
                 >
                   字卡

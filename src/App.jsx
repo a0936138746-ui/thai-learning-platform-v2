@@ -9,6 +9,7 @@ import {
   VOCABULARY_STORAGE_KEY,
 } from "./data";
 import BookingPage from "./pages/BookingPage";
+import CoursePage from "./pages/CoursePage";
 import FlashcardPage from "./pages/FlashcardPage";
 import HomePage from "./pages/HomePage";
 import LearningProgressPage from "./pages/LearningProgressPage";
@@ -96,6 +97,18 @@ function App() {
       <StudentPage
         setPage={setPage}
         setStudyCategory={setStudyCategory}
+        teacherVocabulary={teacherVocabulary}
+        teacherSentences={teacherSentences}
+        quizQuestions={quizQuestions}
+      />
+    );
+  }
+
+  if (page === "course") {
+    return (
+      <CoursePage
+        setPage={setPage}
+        studyCategory={studyCategory}
         teacherVocabulary={teacherVocabulary}
         teacherSentences={teacherSentences}
         quizQuestions={quizQuestions}
