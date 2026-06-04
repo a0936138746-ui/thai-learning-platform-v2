@@ -131,8 +131,9 @@ export default function FlashcardPage({
   flipped,
   setFlipped,
   teacherVocabulary,
+  studyCategory,
 }) {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState(studyCategory || "all");
   const [failedImageUrl, setFailedImageUrl] = useState("");
   const flashcards = teacherVocabulary ?? EMPTY_FLASHCARDS;
   const categories = useMemo(

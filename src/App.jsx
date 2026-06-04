@@ -38,6 +38,7 @@ function App() {
   const [page, setPage] = useState("home");
   const [currentCard, setCurrentCard] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const [studyCategory, setStudyCategory] = useState("all");
   const [teacherVocabulary, setTeacherVocabulary] = useState(() =>
     loadStoredArray(VOCABULARY_STORAGE_KEY, defaultFlashcards)
   );
@@ -91,7 +92,15 @@ function App() {
   }
 
   if (page === "student") {
-    return <StudentPage setPage={setPage} />;
+    return (
+      <StudentPage
+        setPage={setPage}
+        setStudyCategory={setStudyCategory}
+        teacherVocabulary={teacherVocabulary}
+        teacherSentences={teacherSentences}
+        quizQuestions={quizQuestions}
+      />
+    );
   }
 
   if (page === "quiz") {
@@ -100,6 +109,7 @@ function App() {
         setPage={setPage}
         quizQuestions={quizQuestions}
         onQuizCompleted={saveQuizProgress}
+        studyCategory={studyCategory}
       />
     );
   }
@@ -109,6 +119,7 @@ function App() {
       <SentencePracticePage
         setPage={setPage}
         teacherSentences={teacherSentences}
+        studyCategory={studyCategory}
       />
     );
   }
@@ -122,6 +133,7 @@ function App() {
         flipped={flipped}
         setFlipped={setFlipped}
         teacherVocabulary={teacherVocabulary}
+        studyCategory={studyCategory}
       />
     );
   }

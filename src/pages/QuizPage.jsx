@@ -63,14 +63,25 @@ const emptyPanelStyle = {
   lineHeight: 1.7,
 };
 
-export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
+export default function QuizPage({
+  setPage,
+  quizQuestions,
+  onQuizCompleted,
+  studyCategory,
+}) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [showResult, setShowResult] = useState(false);
   const [answeredQuestions, setAnsweredQuestions] = useState({});
   const hasRecordedCompletionRef = useRef(false);
+  const practiceQuestions =
+    studyCategory && studyCategory !== "all"
+      ? quizQuestions.filter(
+          (question) => (question.category || "未分類") === studyCategory
+        )
+      : quizQuestions;
 
-  if (quizQuestions.length === 0) {
+  if (practiceQuestions.length === 0) {
     return (
       <div style={pageStyle}>
         <main style={shellStyle}>
@@ -79,18 +90,18 @@ export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
           </button>
 
           <h1 style={titleStyle}>測驗練習</h1>
-          <p style={subtitleStyle}>目前還沒有測驗題目。</p>
+          <p style={subtitleStyle}>目前這個主題還沒有測驗題目。</p>
 
           <div style={emptyPanelStyle}>
-            請先到老師後台新增題庫，或回首頁重新載入示範資料。
+            請先到老師後台新增題庫，或改選其他主題練習。
           </div>
         </main>
       </div>
     );
   }
 
-  const safeQuestionIndex = currentQuestion % quizQuestions.length;
-  const question = quizQuestions[safeQuestionIndex];
+  const safeQuestionIndex = currentQuestion % practiceQuestions.length;
+  const question = practiceQuestions[safeQuestionIndex];
   const isCorrect = selectedAnswer === question.correctAnswer;
   const options = [
     { label: "A", text: question.optionA },
@@ -119,14 +130,14 @@ export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
 
     if (
       !hasRecordedCompletionRef.current &&
-      nextAnsweredCount === quizQuestions.length
+      nextAnsweredCount === practiceQuestions.length
     ) {
       const correctAnswers = Object.values(nextAnsweredQuestions).filter(
         Boolean
       ).length;
 
       onQuizCompleted({
-        totalQuestions: quizQuestions.length,
+        totalQuestions: practiceQuestions.length,
         correctAnswers,
         answeredAt: new Date().toISOString(),
       });
@@ -135,14 +146,14 @@ export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
   }
 
   function nextQuestion() {
-    setCurrentQuestion((currentQuestion + 1) % quizQuestions.length);
+    setCurrentQuestion((currentQuestion + 1) % practiceQuestions.length);
     setSelectedAnswer("");
     setShowResult(false);
   }
 
   function prevQuestion() {
     setCurrentQuestion(
-      (currentQuestion - 1 + quizQuestions.length) % quizQuestions.length
+      (currentQuestion - 1 + practiceQuestions.length) % practiceQuestions.length
     );
     setSelectedAnswer("");
     setShowResult(false);
@@ -160,7 +171,8 @@ export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
 
         <div style={quizPanelStyle}>
           <p style={progressStyle}>
-            第 {safeQuestionIndex + 1} 題 / 共 {quizQuestions.length} 題，已回答{" "}
+            {studyCategory && studyCategory !== "all" ? `${studyCategory}：` : ""}
+            第 {safeQuestionIndex + 1} 題 / 共 {practiceQuestions.length} 題，已回答{" "}
             {answeredCount} 題
           </p>
 

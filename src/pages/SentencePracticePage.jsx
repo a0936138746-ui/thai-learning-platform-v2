@@ -44,8 +44,17 @@ const emptyPanelStyle = {
   lineHeight: 1.7,
 };
 
-export default function SentencePracticePage({ setPage, teacherSentences }) {
-  const practiceSentences = teacherSentences;
+export default function SentencePracticePage({
+  setPage,
+  teacherSentences,
+  studyCategory,
+}) {
+  const practiceSentences =
+    studyCategory && studyCategory !== "all"
+      ? teacherSentences.filter(
+          (sentence) => (sentence.category || "未分類") === studyCategory
+        )
+      : teacherSentences;
   const [currentSentence, setCurrentSentence] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
 
@@ -58,10 +67,10 @@ export default function SentencePracticePage({ setPage, teacherSentences }) {
           </button>
 
           <h1 style={titleStyle}>句型練習</h1>
-          <p style={subtitleStyle}>目前還沒有句型資料。</p>
+          <p style={subtitleStyle}>目前這個主題還沒有句型資料。</p>
 
           <div style={emptyPanelStyle}>
-            請先到老師後台新增句庫，或回首頁重新載入示範資料。
+            請先到老師後台新增句庫，或改選其他主題練習。
           </div>
         </main>
       </div>
@@ -96,6 +105,7 @@ export default function SentencePracticePage({ setPage, teacherSentences }) {
 
         <div style={practicePanelStyle}>
           <p style={progressStyle}>
+            {studyCategory && studyCategory !== "all" ? `${studyCategory}：` : ""}
             第 {safeSentenceIndex + 1} 句 / 共 {practiceSentences.length} 句
           </p>
 
