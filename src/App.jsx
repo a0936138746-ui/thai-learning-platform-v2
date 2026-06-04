@@ -83,6 +83,7 @@ function App() {
       [
         {
           id: Date.now().toString(),
+          category: record.category,
           totalQuestions: record.totalQuestions,
           correctAnswers: record.correctAnswers,
           answeredAt: record.answeredAt,
@@ -100,6 +101,7 @@ function App() {
         teacherVocabulary={teacherVocabulary}
         teacherSentences={teacherSentences}
         quizQuestions={quizQuestions}
+        learningProgress={learningProgress}
       />
     );
   }

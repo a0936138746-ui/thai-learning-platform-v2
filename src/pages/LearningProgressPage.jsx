@@ -121,6 +121,7 @@ export default function LearningProgressPage({ setPage, learningProgress }) {
             >
               <thead>
                 <tr>
+                  <th style={thStyle}>主題</th>
                   <th style={thStyle}>完成時間</th>
                   <th style={thStyle}>總題數</th>
                   <th style={thStyle}>答對題數</th>
@@ -130,6 +131,7 @@ export default function LearningProgressPage({ setPage, learningProgress }) {
               <tbody>
                 {learningProgress.map((record) => (
                   <tr key={record.id}>
+                    <td style={tdStyle}>{record.category || "未分類"}</td>
                     <td style={tdStyle}>{formatAnsweredAt(record.answeredAt)}</td>
                     <td style={tdStyle}>{record.totalQuestions}</td>
                     <td style={tdStyle}>{record.correctAnswers}</td>

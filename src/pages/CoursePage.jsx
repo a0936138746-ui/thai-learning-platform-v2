@@ -105,14 +105,32 @@ export default function CoursePage({
   teacherVocabulary,
   teacherSentences,
   quizQuestions,
+  learningProgress,
 }) {
   const course = getCourseMeta(studyCategory);
   const vocabularyCounts = countItemsByCategory(teacherVocabulary);
   const sentenceCounts = countItemsByCategory(teacherSentences);
   const quizCounts = countItemsByCategory(quizQuestions);
+  const courseProgress = learningProgress.filter(
+    (record) => record.category === course.category
+  );
   const vocabularyTotal = vocabularyCounts[course.category] || 0;
   const sentenceTotal = sentenceCounts[course.category] || 0;
   const quizTotal = quizCounts[course.category] || 0;
+  const latestProgress = courseProgress[0];
+  const bestAccuracy = courseProgress.reduce((best, record) => {
+    if (!record.totalQuestions) {
+      return best;
+    }
+
+    const accuracy = Math.round(
+      (record.correctAnswers / record.totalQuestions) * 100
+    );
+    return Math.max(best, accuracy);
+  }, 0);
+  const latestPracticeText = latestProgress
+    ? new Date(latestProgress.answeredAt).toLocaleString("zh-TW")
+    : "尚未測驗";
 
   return (
     <div style={pageStyle}>
@@ -142,6 +160,30 @@ export default function CoursePage({
             <div style={statBoxStyle}>
               <div style={statLabelStyle}>測驗</div>
               <div style={statValueStyle}>{quizTotal}</div>
+            </div>
+          </div>
+        </section>
+
+        <section style={overviewStyle}>
+          <h2 style={cardTitleStyle}>學習進度</h2>
+          <p style={cardTextStyle}>
+            這裡會記錄本章測驗結果。完成一次測驗後，章節頁會顯示最佳正確率和最近練習時間。
+          </p>
+
+          <div style={statsGridStyle}>
+            <div style={statBoxStyle}>
+              <div style={statLabelStyle}>完成測驗</div>
+              <div style={statValueStyle}>{courseProgress.length}</div>
+            </div>
+            <div style={statBoxStyle}>
+              <div style={statLabelStyle}>最佳正確率</div>
+              <div style={statValueStyle}>{bestAccuracy}%</div>
+            </div>
+            <div style={statBoxStyle}>
+              <div style={statLabelStyle}>最近練習</div>
+              <div style={{ color: "#111827", lineHeight: 1.5, marginTop: "8px" }}>
+                {latestPracticeText}
+              </div>
             </div>
           </div>
         </section>

@@ -137,6 +137,7 @@ export default function QuizPage({
       ).length;
 
       onQuizCompleted({
+        category: studyCategory && studyCategory !== "all" ? studyCategory : "全部",
         totalQuestions: practiceQuestions.length,
         correctAnswers,
         answeredAt: new Date().toISOString(),
