@@ -11,6 +11,7 @@ import {
   tableCardStyle,
   titleStyle,
 } from "../styles";
+import { playThaiAudio } from "../speech";
 
 const shellStyle = {
   maxWidth: "980px",
@@ -116,6 +117,14 @@ export default function SentencePracticePage({ setPage, teacherSentences }) {
               <div style={{ color: "#52616b" }}>
                 {sentence.py || "尚未設定拼音"}
               </div>
+              <button
+                style={{ ...smallButtonStyle, marginTop: "16px" }}
+                onClick={() =>
+                  playThaiAudio({ audio: sentence.audio, text: sentence.th })
+                }
+              >
+                播放泰文
+              </button>
             </div>
           ) : (
             <button style={greenButtonStyle} onClick={() => setShowAnswer(true)}>

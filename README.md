@@ -36,6 +36,7 @@
 - 純前端狀態管理
 - `localStorage` 保存教材、測驗、紀錄與預約
 - 圖卡圖片放在 `src/assets/flashcards`
+- 發音音檔可放在 `public/audio`
 - 共用樣式放在 `src/styles.js`
 
 ## 啟動方式
@@ -80,10 +81,42 @@ npm run build
 
 這些設定是為了讓目前開發環境穩定可跑。若未來換到乾淨環境或 CI，可以再評估是否恢復 Vite 預設設定。
 
+## 發音音檔
+
+目前播放邏輯以音檔為主。若資料沒有音檔路徑，系統會提示尚未設定音檔。
+
+建議音檔放在：
+
+```text
+public/audio/vocab/
+public/audio/sentences/
+```
+
+範例：
+
+```text
+public/audio/vocab/sawasdee.mp3
+```
+
+老師後台的「單字管理」或「句型管理」可以填入：
+
+```text
+/audio/vocab/sawasdee.mp3
+```
+
+學生端點「播放泰文」時，如果該資料有音檔路徑，會播放 mp3。若沒有音檔路徑，會提醒先到老師後台設定。
+
+第一批建議音檔清單在：
+
+```text
+public/audio/audio-plan.md
+```
+
 ## 主要檔案
 
 - `src/App.jsx`：平台頁面切換與 localStorage 資料同步
 - `src/data.js`：預設單字、句型、測驗題與 storage key
+- `public/audio`：泰文發音音檔，可用 `/audio/...mp3` 填入資料的 `audio` 欄位
 - `src/styles.js`：共用 inline style
 - `src/pages/HomePage.jsx`：首頁
 - `src/pages/StudentPage.jsx`：學生學習中心

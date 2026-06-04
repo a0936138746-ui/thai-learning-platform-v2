@@ -12,6 +12,8 @@ node_modules
 dist
 dist-ssr
 *.local
+src/assets/flashcards/hotel.png
+src/assets/flashcards/directions.png
 
 # Editor directories and files
 .vscode/*

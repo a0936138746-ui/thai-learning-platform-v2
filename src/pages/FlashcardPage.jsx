@@ -8,6 +8,7 @@ import {
   subtitleStyle,
   titleStyle,
 } from "../styles";
+import { playThaiAudio } from "../speech";
 
 const EMPTY_FLASHCARDS = [];
 const UNCATEGORIZED = "未分類";
@@ -268,6 +269,14 @@ export default function FlashcardPage({
         </div>
 
         <div style={controlRowStyle}>
+          {card?.th && (
+            <button
+              style={smallButtonStyle}
+              onClick={() => playThaiAudio({ audio: card.audio, text: card.th })}
+            >
+              播放泰文
+            </button>
+          )}
           <button style={smallButtonStyle} onClick={prevCard}>
             上一張
           </button>

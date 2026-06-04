@@ -21,6 +21,7 @@ const emptyVocabularyForm = {
   zh: "",
   th: "",
   py: "",
+  audio: "",
 };
 
 const helperTextStyle = {
@@ -61,6 +62,7 @@ export default function VocabularyManagerPage({
       zh: form.zh.trim(),
       th: form.th.trim(),
       py: form.py.trim(),
+      audio: form.audio.trim(),
     };
 
     if (!vocabularyItem.zh || !vocabularyItem.th) {
@@ -76,7 +78,7 @@ export default function VocabularyManagerPage({
     } else {
       setTeacherVocabulary([
         ...teacherVocabulary,
-        { id: Date.now().toString(), image: "", audio: "", ...vocabularyItem },
+        { id: Date.now().toString(), image: "", ...vocabularyItem },
       ]);
     }
 
@@ -90,6 +92,7 @@ export default function VocabularyManagerPage({
       zh: item.zh,
       th: item.th,
       py: item.py || "",
+      audio: item.audio || "",
     });
   }
 
@@ -158,6 +161,16 @@ export default function VocabularyManagerPage({
               />
             </label>
 
+            <label style={labelStyle}>
+              音檔路徑
+              <input
+                style={inputStyle}
+                value={form.audio}
+                onChange={(event) => updateForm("audio", event.target.value)}
+                placeholder="例如：/audio/vocab/khruu.mp3"
+              />
+            </label>
+
             <div style={actionRowStyle}>
               <button style={greenButtonStyle} type="submit">
                 {editingId ? "儲存修改" : "新增單字"}
@@ -195,6 +208,7 @@ export default function VocabularyManagerPage({
                   <th style={thStyle}>中文</th>
                   <th style={thStyle}>泰文</th>
                   <th style={thStyle}>拼音</th>
+                  <th style={thStyle}>音檔</th>
                   <th style={thStyle}>操作</th>
                 </tr>
               </thead>
@@ -205,6 +219,7 @@ export default function VocabularyManagerPage({
                     <td style={tdStyle}>{item.zh}</td>
                     <td style={tdStyle}>{item.th}</td>
                     <td style={tdStyle}>{item.py || "-"}</td>
+                    <td style={tdStyle}>{item.audio ? "已設定" : "-"}</td>
                     <td style={tdStyle}>
                       <button
                         style={smallButtonStyle}

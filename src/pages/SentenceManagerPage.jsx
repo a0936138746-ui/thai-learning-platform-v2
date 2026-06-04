@@ -22,6 +22,7 @@ const emptySentenceForm = {
   th: "",
   py: "",
   note: "",
+  audio: "",
 };
 
 const helperTextStyle = {
@@ -62,6 +63,7 @@ export default function SentenceManagerPage({
       th: form.th.trim(),
       py: form.py.trim(),
       note: form.note.trim(),
+      audio: form.audio.trim(),
     };
 
     if (!sentenceItem.zh || !sentenceItem.th) {
@@ -91,6 +93,7 @@ export default function SentenceManagerPage({
       th: item.th,
       py: item.py || "",
       note: item.note || "",
+      audio: item.audio || "",
     });
   }
 
@@ -157,6 +160,16 @@ export default function SentenceManagerPage({
               />
             </label>
 
+            <label style={labelStyle}>
+              音檔路徑
+              <input
+                style={inputStyle}
+                value={form.audio}
+                onChange={(event) => updateForm("audio", event.target.value)}
+                placeholder="例如：/audio/sentences/i-want-water.mp3"
+              />
+            </label>
+
             <div style={actionRowStyle}>
               <button style={greenButtonStyle} type="submit">
                 {editingId ? "儲存修改" : "新增句型"}
@@ -194,6 +207,7 @@ export default function SentenceManagerPage({
                   <th style={thStyle}>泰文</th>
                   <th style={thStyle}>拼音</th>
                   <th style={thStyle}>提示</th>
+                  <th style={thStyle}>音檔</th>
                   <th style={thStyle}>操作</th>
                 </tr>
               </thead>
@@ -204,6 +218,7 @@ export default function SentenceManagerPage({
                     <td style={tdStyle}>{item.th}</td>
                     <td style={tdStyle}>{item.py || "-"}</td>
                     <td style={tdStyle}>{item.note || "-"}</td>
+                    <td style={tdStyle}>{item.audio ? "已設定" : "-"}</td>
                     <td style={tdStyle}>
                       <button
                         style={smallButtonStyle}
