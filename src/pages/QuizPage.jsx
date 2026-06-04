@@ -12,28 +12,79 @@ import {
   titleStyle,
 } from "../styles";
 
+const shellStyle = {
+  maxWidth: "980px",
+  margin: "0 auto",
+};
+
+const quizPanelStyle = {
+  ...tableCardStyle,
+  maxWidth: "760px",
+  margin: "0 auto",
+};
+
+const progressStyle = {
+  color: "#64748b",
+  marginTop: 0,
+  lineHeight: 1.5,
+};
+
+const optionGridStyle = {
+  display: "grid",
+  gap: "12px",
+};
+
+const optionButtonStyle = {
+  ...smallButtonStyle,
+  width: "100%",
+  textAlign: "left",
+  margin: 0,
+  background: "#f8fafc",
+  border: "1px solid #e2e8f0",
+};
+
+const selectedOptionStyle = {
+  ...optionButtonStyle,
+  background: "#e8f5e9",
+  border: "1px solid #81c784",
+};
+
+const actionRowStyle = {
+  display: "flex",
+  justifyContent: "center",
+  flexWrap: "wrap",
+  gap: "8px",
+  marginTop: "24px",
+};
+
+const emptyPanelStyle = {
+  ...quizPanelStyle,
+  color: "#52616b",
+  lineHeight: 1.7,
+};
+
 export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [showResult, setShowResult] = useState(false);
-  const answeredQuestionsRef = useRef({});
+  const [answeredQuestions, setAnsweredQuestions] = useState({});
   const hasRecordedCompletionRef = useRef(false);
 
   if (quizQuestions.length === 0) {
     return (
       <div style={pageStyle}>
-        <button style={backButtonStyle} onClick={() => setPage("student")}>
-          ← 回學生學習中心
-        </button>
+        <main style={shellStyle}>
+          <button style={backButtonStyle} onClick={() => setPage("student")}>
+            回學生中心
+          </button>
 
-        <h1 style={titleStyle}>📝 測驗中心</h1>
-        <p style={subtitleStyle}>完成老師出的選擇題，馬上查看答題結果。</p>
+          <h1 style={titleStyle}>測驗練習</h1>
+          <p style={subtitleStyle}>目前還沒有測驗題目。</p>
 
-        <div style={{ ...tableCardStyle, maxWidth: "720px", margin: "0 auto" }}>
-          <p style={{ color: "#666", marginTop: 0 }}>
-            目前尚未有測驗題目，請先請老師到測驗題庫新增題目。
-          </p>
-        </div>
+          <div style={emptyPanelStyle}>
+            請先到老師後台新增測驗題，或重置 demo 資料後再回來練習。
+          </div>
+        </main>
       </div>
     );
   }
@@ -49,6 +100,7 @@ export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
   const correctOption = options.find(
     (option) => option.label === question.correctAnswer
   );
+  const answeredCount = Object.keys(answeredQuestions).length;
 
   function chooseAnswer(answer) {
     const answerIsCorrect = answer === question.correctAnswer;
@@ -56,18 +108,20 @@ export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
     setSelectedAnswer(answer);
     setShowResult(true);
 
-    answeredQuestionsRef.current = {
-      ...answeredQuestionsRef.current,
+    const nextAnsweredQuestions = {
+      ...answeredQuestions,
       [question.id || safeQuestionIndex]: answerIsCorrect,
     };
 
-    const answeredCount = Object.keys(answeredQuestionsRef.current).length;
+    setAnsweredQuestions(nextAnsweredQuestions);
+
+    const nextAnsweredCount = Object.keys(nextAnsweredQuestions).length;
 
     if (
       !hasRecordedCompletionRef.current &&
-      answeredCount === quizQuestions.length
+      nextAnsweredCount === quizQuestions.length
     ) {
-      const correctAnswers = Object.values(answeredQuestionsRef.current).filter(
+      const correctAnswers = Object.values(nextAnsweredQuestions).filter(
         Boolean
       ).length;
 
@@ -96,70 +150,65 @@ export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
 
   return (
     <div style={pageStyle}>
-      <button style={backButtonStyle} onClick={() => setPage("student")}>
-        ← 回學生學習中心
-      </button>
+      <main style={shellStyle}>
+        <button style={backButtonStyle} onClick={() => setPage("student")}>
+          回學生中心
+        </button>
 
-      <h1 style={titleStyle}>📝 測驗中心</h1>
-      <p style={subtitleStyle}>選擇答案後，會立即顯示答對或答錯。</p>
+        <h1 style={titleStyle}>測驗練習</h1>
+        <p style={subtitleStyle}>選出正確答案，完成全部題目後會留下練習紀錄。</p>
 
-      <div style={{ ...tableCardStyle, maxWidth: "720px", margin: "0 auto" }}>
-        <p style={{ color: "#666", marginTop: 0 }}>
-          第 {safeQuestionIndex + 1} 題 / 共 {quizQuestions.length} 題
-        </p>
+        <div style={quizPanelStyle}>
+          <p style={progressStyle}>
+            第 {safeQuestionIndex + 1} 題 / 共 {quizQuestions.length} 題，已作答{" "}
+            {answeredCount} 題
+          </p>
 
-        <div style={sentencePromptStyle}>{question.question}</div>
+          <div style={sentencePromptStyle}>{question.question}</div>
 
-        <div style={{ display: "grid", gap: "12px" }}>
-          {options.map((option) => (
-            <button
-              key={option.label}
-              style={
-                selectedAnswer === option.label
-                  ? greenButtonStyle
-                  : smallButtonStyle
-              }
-              onClick={() => chooseAnswer(option.label)}
-            >
-              {option.label}. {option.text}
-            </button>
-          ))}
-        </div>
-
-        {showResult && (
-          <div style={{ ...answerStyle, marginTop: "24px" }}>
-            <div
-              style={{
-                fontSize: "clamp(22px, 7vw, 28px)",
-                lineHeight: 1.3,
-                marginBottom: "12px",
-              }}
-            >
-              {isCorrect ? "✅ 答對了！" : "❌ 答錯了"}
-            </div>
-            <p style={hintStyle}>
-              正確答案：{correctOption.label}. {correctOption.text}
-            </p>
+          <div style={optionGridStyle}>
+            {options.map((option) => (
+              <button
+                key={option.label}
+                style={
+                  selectedAnswer === option.label
+                    ? selectedOptionStyle
+                    : optionButtonStyle
+                }
+                onClick={() => chooseAnswer(option.label)}
+              >
+                {option.label}. {option.text}
+              </button>
+            ))}
           </div>
-        )}
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: "8px",
-            marginTop: "24px",
-          }}
-        >
-          <button style={smallButtonStyle} onClick={prevQuestion}>
-            上一題
-          </button>
-          <button style={greenButtonStyle} onClick={nextQuestion}>
-            下一題
-          </button>
+          {showResult && (
+            <div style={{ ...answerStyle, marginTop: "24px" }}>
+              <div
+                style={{
+                  fontSize: "clamp(22px, 7vw, 28px)",
+                  lineHeight: 1.3,
+                  marginBottom: "12px",
+                }}
+              >
+                {isCorrect ? "答對了" : "還差一點"}
+              </div>
+              <p style={hintStyle}>
+                正確答案：{correctOption.label}. {correctOption.text}
+              </p>
+            </div>
+          )}
+
+          <div style={actionRowStyle}>
+            <button style={smallButtonStyle} onClick={prevQuestion}>
+              上一題
+            </button>
+            <button style={greenButtonStyle} onClick={nextQuestion}>
+              下一題
+            </button>
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

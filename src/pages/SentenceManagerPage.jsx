@@ -1,9 +1,48 @@
 import { useState } from "react";
-import { backButtonStyle, dangerButtonStyle, greenButtonStyle, inputStyle, labelStyle, pageStyle, sentenceFormStyle, smallButtonStyle, subtitleStyle, tableCardStyle, tdStyle, teacherPanelStyle, textareaStyle, thStyle, titleStyle } from "../styles";
+import {
+  backButtonStyle,
+  dangerButtonStyle,
+  greenButtonStyle,
+  inputStyle,
+  labelStyle,
+  pageStyle,
+  sentenceFormStyle,
+  smallButtonStyle,
+  subtitleStyle,
+  tableCardStyle,
+  tdStyle,
+  teacherPanelStyle,
+  textareaStyle,
+  thStyle,
+  titleStyle,
+} from "../styles";
 
-export default function SentenceManagerPage({ setPage, teacherSentences, setTeacherSentences }) {
-  const emptyForm = { zh: "", th: "", py: "", note: "" };
-  const [form, setForm] = useState(emptyForm);
+const emptySentenceForm = {
+  zh: "",
+  th: "",
+  py: "",
+  note: "",
+};
+
+const helperTextStyle = {
+  color: "#64748b",
+  lineHeight: 1.6,
+  marginTop: 0,
+};
+
+const actionRowStyle = {
+  display: "flex",
+  alignItems: "end",
+  flexWrap: "wrap",
+  gap: "10px",
+};
+
+export default function SentenceManagerPage({
+  setPage,
+  teacherSentences,
+  setTeacherSentences,
+}) {
+  const [form, setForm] = useState(emptySentenceForm);
   const [editingId, setEditingId] = useState(null);
 
   function updateForm(field, value) {
@@ -11,7 +50,7 @@ export default function SentenceManagerPage({ setPage, teacherSentences, setTeac
   }
 
   function resetForm() {
-    setForm(emptyForm);
+    setForm(emptySentenceForm);
     setEditingId(null);
   }
 
@@ -66,17 +105,16 @@ export default function SentenceManagerPage({ setPage, teacherSentences, setTeac
   return (
     <div style={pageStyle}>
       <button style={backButtonStyle} onClick={() => setPage("teacher")}>
-        ← 回老師後台
+        回老師後台
       </button>
 
-      <h1 style={titleStyle}>句子管理</h1>
-      <p style={subtitleStyle}>
-        老師新增的句子會自動儲存，並出現在學生的句型練習中。
-      </p>
+      <h1 style={titleStyle}>句型管理</h1>
+      <p style={subtitleStyle}>維護學生句型練習使用的中文情境、泰文句子與提示。</p>
 
       <div style={teacherPanelStyle}>
         <div style={tableCardStyle}>
-          <h2>{editingId ? "編輯句子" : "新增句子"}</h2>
+          <h2>{editingId ? "編輯句型" : "新增句型"}</h2>
+          <p style={helperTextStyle}>中文句子與泰文句子為必填，提示可補充使用情境。</p>
 
           <form onSubmit={saveSentence} style={sentenceFormStyle}>
             <label style={labelStyle}>
@@ -100,35 +138,28 @@ export default function SentenceManagerPage({ setPage, teacherSentences, setTeac
             </label>
 
             <label style={labelStyle}>
-              拼音 / 發音
+              拼音
               <input
                 style={inputStyle}
                 value={form.py}
                 onChange={(event) => updateForm("py", event.target.value)}
-                placeholder="例如：chăn yàak dùuem náam"
+                placeholder="例如：chǎn yàak dʉ̀ʉm náam"
               />
             </label>
 
             <label style={labelStyle}>
-              練習提示
+              提示
               <input
                 style={inputStyle}
                 value={form.note}
                 onChange={(event) => updateForm("note", event.target.value)}
-                placeholder="例如：可替換飲料名稱"
+                placeholder="例如：在餐廳點飲料時使用"
               />
             </label>
 
-            <div
-              style={{
-                display: "flex",
-                alignItems: "end",
-                flexWrap: "wrap",
-                gap: "10px",
-              }}
-            >
+            <div style={actionRowStyle}>
               <button style={greenButtonStyle} type="submit">
-                {editingId ? "儲存修改" : "新增句子"}
+                {editingId ? "儲存修改" : "新增句型"}
               </button>
 
               {editingId && (
@@ -137,7 +168,7 @@ export default function SentenceManagerPage({ setPage, teacherSentences, setTeac
                   type="button"
                   onClick={resetForm}
                 >
-                  取消
+                  取消編輯
                 </button>
               )}
             </div>
@@ -145,17 +176,15 @@ export default function SentenceManagerPage({ setPage, teacherSentences, setTeac
         </div>
 
         <div style={tableCardStyle}>
-          <h2>老師句子庫</h2>
+          <h2>目前句型</h2>
 
           {teacherSentences.length === 0 ? (
-            <p style={{ color: "#666" }}>
-              尚未新增句子，請使用上方表單建立第一個句型練習。
-            </p>
+            <p style={helperTextStyle}>尚未新增句型。新增後會出現在學生句型練習中。</p>
           ) : (
             <table
               style={{
                 width: "100%",
-                minWidth: "760px",
+                minWidth: "820px",
                 borderCollapse: "collapse",
               }}
             >
@@ -173,8 +202,8 @@ export default function SentenceManagerPage({ setPage, teacherSentences, setTeac
                   <tr key={item.id}>
                     <td style={tdStyle}>{item.zh}</td>
                     <td style={tdStyle}>{item.th}</td>
-                    <td style={tdStyle}>{item.py || "—"}</td>
-                    <td style={tdStyle}>{item.note || "—"}</td>
+                    <td style={tdStyle}>{item.py || "-"}</td>
+                    <td style={tdStyle}>{item.note || "-"}</td>
                     <td style={tdStyle}>
                       <button
                         style={smallButtonStyle}

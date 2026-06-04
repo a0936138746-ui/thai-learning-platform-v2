@@ -7,7 +7,7 @@ import {
 } from "../data";
 import { cardStyle, pageStyle, subtitleStyle, titleStyle } from "../styles";
 
-const DEMO_VERSION = "Demo v2026.05.16";
+const DEMO_VERSION = "MVP v2026.06";
 
 const DEMO_STORAGE_KEYS = [
   VOCABULARY_STORAGE_KEY,
@@ -17,113 +17,138 @@ const DEMO_STORAGE_KEYS = [
   BOOKING_STORAGE_KEY,
 ];
 
-const heroStyle = {
-  maxWidth: "980px",
-  margin: "0 auto clamp(20px, 5vw, 28px)",
-  textAlign: "center",
+const shellStyle = {
+  maxWidth: "1080px",
+  margin: "0 auto",
+};
+
+const topBarStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  flexWrap: "wrap",
+  gap: "12px",
+  marginBottom: "22px",
+};
+
+const brandStyle = {
+  fontWeight: "bold",
+  color: "#111827",
+  fontSize: "18px",
 };
 
 const demoBadgeStyle = {
   display: "inline-block",
   padding: "6px 12px",
   borderRadius: "999px",
-  background: "#fff8e1",
-  color: "#795548",
+  background: "#e8f3ff",
+  color: "#155e75",
   fontWeight: "bold",
-  marginBottom: "16px",
-};
-
-const versionPanelStyle = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  flexWrap: "wrap",
-  gap: "10px",
-  marginTop: "18px",
-};
-
-const versionTextStyle = {
-  color: "#666",
   fontSize: "14px",
-  lineHeight: 1.5,
 };
 
-const refreshButtonStyle = {
-  padding: "10px 14px",
-  border: "1px solid #ddd",
-  borderRadius: "999px",
-  background: "white",
-  color: "#333",
-  cursor: "pointer",
-  lineHeight: 1.35,
+const introStyle = {
+  textAlign: "center",
+  marginBottom: "28px",
 };
 
-const heroTextStyle = {
-  maxWidth: "780px",
+const introTextStyle = {
+  maxWidth: "760px",
   margin: "0 auto",
-  color: "#555",
-  fontSize: "clamp(16px, 4vw, 18px)",
+  color: "#52616b",
   lineHeight: 1.7,
-  overflowWrap: "break-word",
-};
-
-const homeTitleStyle = {
-  ...titleStyle,
-  fontSize: "clamp(30px, 8vw, 42px)",
-  lineHeight: 1.2,
-  overflowWrap: "break-word",
+  fontSize: "clamp(16px, 4vw, 18px)",
 };
 
 const entranceGridStyle = {
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(min(230px, 100%), 1fr))",
-  gap: "clamp(12px, 4vw, 18px)",
-  maxWidth: "980px",
-  margin: "0 auto clamp(22px, 6vw, 32px)",
+  gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))",
+  gap: "16px",
+  marginBottom: "28px",
+};
+
+const actionCardStyle = {
+  ...cardStyle,
+  minHeight: "180px",
+  textAlign: "left",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+  border: "1px solid #e5e7eb",
+};
+
+const cardLabelStyle = {
+  color: "#64748b",
+  fontSize: "14px",
+  fontWeight: "bold",
+  marginBottom: "10px",
+};
+
+const cardTitleStyle = {
+  margin: "0 0 10px",
+  color: "#111827",
+};
+
+const cardTextStyle = {
+  color: "#52616b",
+  lineHeight: 1.6,
+  margin: 0,
 };
 
 const sectionStyle = {
-  maxWidth: "980px",
-  margin: "0 auto clamp(20px, 5vw, 28px)",
+  marginTop: "28px",
 };
 
 const sectionHeaderStyle = {
-  marginBottom: "14px",
-  color: "#111",
+  margin: "0 0 14px",
+  color: "#111827",
 };
 
 const infoGridStyle = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(min(220px, 100%), 1fr))",
-  gap: "clamp(12px, 4vw, 16px)",
+  gap: "14px",
 };
 
 const infoCardStyle = {
   background: "white",
-  padding: "clamp(16px, 4vw, 22px)",
-  borderRadius: "clamp(14px, 4vw, 18px)",
-  boxShadow: "0 5px 20px rgba(0,0,0,0.06)",
-  textAlign: "left",
+  padding: "18px",
+  borderRadius: "16px",
+  border: "1px solid #e5e7eb",
   lineHeight: 1.6,
-  width: "100%",
-  maxWidth: "100%",
-  boxSizing: "border-box",
-  overflowWrap: "break-word",
 };
 
 const mutedTextStyle = {
-  color: "#666",
-  marginTop: "8px",
+  color: "#64748b",
+  margin: "8px 0 0",
 };
 
-const roadmapStyle = {
-  ...infoCardStyle,
-  borderLeft: "5px solid #4caf50",
+const refreshPanelStyle = {
+  marginTop: "28px",
+  padding: "16px",
+  borderRadius: "16px",
+  background: "#f8fafc",
+  border: "1px solid #e5e7eb",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  flexWrap: "wrap",
+  gap: "12px",
+};
+
+const refreshButtonStyle = {
+  padding: "10px 14px",
+  border: "1px solid #cbd5e1",
+  borderRadius: "12px",
+  background: "white",
+  color: "#111827",
+  cursor: "pointer",
+  lineHeight: 1.35,
 };
 
 async function reloadLatestDemo() {
   const shouldReload = confirm(
-    "將清除本機 demo 資料並重新載入最新版，是否繼續？"
+    "要清除本機練習資料並重新載入預設 demo 嗎？"
   );
 
   if (!shouldReload) {
@@ -145,99 +170,100 @@ async function reloadLatestDemo() {
 export default function HomePage({ setPage }) {
   return (
     <div style={pageStyle}>
-      <section style={heroStyle}>
-        <span style={demoBadgeStyle}>{DEMO_VERSION}</span>
-        <h1 style={homeTitleStyle}>泰文／中文學習平台 MVP</h1>
-        <p style={subtitleStyle}>
-          老師可以建立教材，學生可用手機練習單字、句型與測驗，系統可記錄學習成果與課程預約。
-        </p>
-        <p style={heroTextStyle}>
-          這是一個展示用原型，聚焦在語言教學最常見的三件事：老師快速建立內容、學生能反覆練習、管理端能看到學習與預約狀態。
-        </p>
-        <div style={versionPanelStyle}>
-          <span style={versionTextStyle}>
-            建議使用 Chrome / Safari 開啟，以獲得最佳體驗。
+      <main style={shellStyle}>
+        <div style={topBarStyle}>
+          <div style={brandStyle}>Thai Learning Platform</div>
+          <span style={demoBadgeStyle}>{DEMO_VERSION}</span>
+        </div>
+
+        <section style={introStyle}>
+          <h1 style={titleStyle}>泰文學習平台 MVP</h1>
+          <p style={subtitleStyle}>先穩定學習流程，再逐步擴充教材與資料庫。</p>
+          <p style={introTextStyle}>
+            目前版本提供學生練習、老師教材管理、測驗紀錄與課程預約。資料先保存在本機瀏覽器，方便快速展示與迭代。
+          </p>
+        </section>
+
+        <section style={entranceGridStyle}>
+          <div style={actionCardStyle} onClick={() => setPage("student")}>
+            <div>
+              <div style={cardLabelStyle}>Student</div>
+              <h2 style={cardTitleStyle}>學生學習中心</h2>
+              <p style={cardTextStyle}>
+                練習單字圖卡、句型與測驗，適合做每日短時間複習。
+              </p>
+            </div>
+            <strong>開始練習</strong>
+          </div>
+
+          <div style={actionCardStyle} onClick={() => setPage("teacher")}>
+            <div>
+              <div style={cardLabelStyle}>Teacher</div>
+              <h2 style={cardTitleStyle}>老師管理後台</h2>
+              <p style={cardTextStyle}>
+                管理單字、句型與測驗題，檢視學生練習成果。
+              </p>
+            </div>
+            <strong>管理教材</strong>
+          </div>
+
+          <div style={actionCardStyle} onClick={() => setPage("booking")}>
+            <div>
+              <div style={cardLabelStyle}>Schedule</div>
+              <h2 style={cardTitleStyle}>課程預約</h2>
+              <p style={cardTextStyle}>
+                建立課程時間、學生姓名、課程類型與備註。
+              </p>
+            </div>
+            <strong>查看預約</strong>
+          </div>
+        </section>
+
+        <section style={sectionStyle}>
+          <h2 style={sectionHeaderStyle}>目前已完成</h2>
+          <div style={infoGridStyle}>
+            <div style={infoCardStyle}>
+              <strong>教材資料</strong>
+              <p style={mutedTextStyle}>內建泰文單字、句型與測驗題，支援老師後台調整。</p>
+            </div>
+            <div style={infoCardStyle}>
+              <strong>學習互動</strong>
+              <p style={mutedTextStyle}>學生可以翻圖卡、練句型、作答測驗並留下紀錄。</p>
+            </div>
+            <div style={infoCardStyle}>
+              <strong>本機保存</strong>
+              <p style={mutedTextStyle}>目前使用 localStorage 保存，適合 MVP 展示與快速測試。</p>
+            </div>
+          </div>
+        </section>
+
+        <section style={sectionStyle}>
+          <h2 style={sectionHeaderStyle}>接下來方向</h2>
+          <div style={infoGridStyle}>
+            <div style={infoCardStyle}>
+              <strong>穩定平台</strong>
+              <p style={mutedTextStyle}>先整理頁面、修正文案與入口流程。</p>
+            </div>
+            <div style={infoCardStyle}>
+              <strong>豐富內容</strong>
+              <p style={mutedTextStyle}>逐步增加字庫、例句、測驗題與一致風格圖片。</p>
+            </div>
+            <div style={infoCardStyle}>
+              <strong>雲端資料庫</strong>
+              <p style={mutedTextStyle}>等前端穩定後，再加入登入、權限與多人共用資料。</p>
+            </div>
+          </div>
+        </section>
+
+        <div style={refreshPanelStyle}>
+          <span style={mutedTextStyle}>
+            若本機資料混亂，可以重置 demo 內容重新開始。
           </span>
           <button style={refreshButtonStyle} onClick={reloadLatestDemo}>
-            重新載入最新版
+            重置 demo 資料
           </button>
         </div>
-      </section>
-
-      <div style={entranceGridStyle}>
-        <div style={cardStyle} onClick={() => setPage("student")}>
-          <h2>我要學習</h2>
-          <p>進入學生學習中心，練習單字圖卡、句型與測驗。</p>
-        </div>
-
-        <div style={cardStyle} onClick={() => setPage("teacher")}>
-          <h2>老師管理教材</h2>
-          <p>管理單字、句型、測驗題庫、學習紀錄與預約。</p>
-        </div>
-
-        <div style={cardStyle} onClick={() => setPage("booking")}>
-          <h2>預約課程</h2>
-          <p>新增、查看與刪除學生課程預約資料。</p>
-        </div>
-      </div>
-
-      <section style={sectionStyle}>
-        <h2 style={sectionHeaderStyle}>平台特色</h2>
-        <div style={infoGridStyle}>
-          <div style={infoCardStyle}>
-            <h3>教材建立</h3>
-            <p style={mutedTextStyle}>老師可建立單字、句型與測驗題，快速整理課堂內容。</p>
-          </div>
-          <div style={infoCardStyle}>
-            <h3>手機練習</h3>
-            <p style={mutedTextStyle}>學生可用手機進入學習中心，反覆練習核心內容。</p>
-          </div>
-          <div style={infoCardStyle}>
-            <h3>學習紀錄</h3>
-            <p style={mutedTextStyle}>系統可保存測驗結果，讓老師了解最近練習狀況。</p>
-          </div>
-          <div style={infoCardStyle}>
-            <h3>課程預約</h3>
-            <p style={mutedTextStyle}>預約資料集中管理，方便查看學生上課安排。</p>
-          </div>
-        </div>
-      </section>
-
-      <section style={sectionStyle}>
-        <h2 style={sectionHeaderStyle}>適用對象</h2>
-        <div style={infoGridStyle}>
-          <div style={infoCardStyle}>
-            <h3>語言老師</h3>
-            <p style={mutedTextStyle}>適合整理教材、建立題庫，並追蹤學生練習成果。</p>
-          </div>
-          <div style={infoCardStyle}>
-            <h3>補習班</h3>
-            <p style={mutedTextStyle}>可作為課後練習與預約管理的輕量工具原型。</p>
-          </div>
-          <div style={infoCardStyle}>
-            <h3>學生自學</h3>
-            <p style={mutedTextStyle}>適合用碎片時間複習單字、句型與基礎測驗。</p>
-          </div>
-        </div>
-      </section>
-
-      <section style={sectionStyle}>
-        <h2 style={sectionHeaderStyle}>後續升級方向</h2>
-        <div style={infoGridStyle}>
-          <div style={roadmapStyle}>
-            <h3>帳號登入</h3>
-            <p style={mutedTextStyle}>區分老師、學生與班級資料。</p>
-          </div>
-          <div style={roadmapStyle}>
-            <h3>雲端資料庫</h3>
-            <p style={mutedTextStyle}>將 localStorage 升級成可多人共用的雲端資料。</p>
-          </div>
-          <div style={roadmapStyle}>
-            <h3>AI 教材生成</h3>
-            <p style={mutedTextStyle}>協助老師快速產生單字、句型、測驗與練習素材。</p>
-          </div>
-        </div>
-      </section>
+      </main>
     </div>
   );
 }

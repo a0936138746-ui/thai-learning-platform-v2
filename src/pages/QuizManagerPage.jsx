@@ -17,19 +17,33 @@ import {
   titleStyle,
 } from "../styles";
 
+const emptyQuestionForm = {
+  question: "",
+  optionA: "",
+  optionB: "",
+  optionC: "",
+  correctAnswer: "A",
+};
+
+const helperTextStyle = {
+  color: "#64748b",
+  lineHeight: 1.6,
+  marginTop: 0,
+};
+
+const actionRowStyle = {
+  display: "flex",
+  alignItems: "end",
+  flexWrap: "wrap",
+  gap: "10px",
+};
+
 export default function QuizManagerPage({
   setPage,
   quizQuestions,
   setQuizQuestions,
 }) {
-  const emptyForm = {
-    question: "",
-    optionA: "",
-    optionB: "",
-    optionC: "",
-    correctAnswer: "A",
-  };
-  const [form, setForm] = useState(emptyForm);
+  const [form, setForm] = useState(emptyQuestionForm);
   const [editingId, setEditingId] = useState(null);
 
   function updateForm(field, value) {
@@ -37,7 +51,7 @@ export default function QuizManagerPage({
   }
 
   function resetForm() {
-    setForm(emptyForm);
+    setForm(emptyQuestionForm);
     setEditingId(null);
   }
 
@@ -111,17 +125,16 @@ export default function QuizManagerPage({
   return (
     <div style={pageStyle}>
       <button style={backButtonStyle} onClick={() => setPage("teacher")}>
-        ← 回老師後台
+        回老師後台
       </button>
 
       <h1 style={titleStyle}>測驗題庫</h1>
-      <p style={subtitleStyle}>
-        老師新增的選擇題會自動儲存，並出現在學生的測驗中心中。
-      </p>
+      <p style={subtitleStyle}>建立學生測驗使用的選擇題與正確答案。</p>
 
       <div style={teacherPanelStyle}>
         <div style={tableCardStyle}>
-          <h2>{editingId ? "編輯選擇題" : "新增選擇題"}</h2>
+          <h2>{editingId ? "編輯題目" : "新增題目"}</h2>
+          <p style={helperTextStyle}>題目與三個選項皆為必填，答案可選 A、B 或 C。</p>
 
           <form onSubmit={saveQuestion} style={sentenceFormStyle}>
             <label style={labelStyle}>
@@ -179,14 +192,7 @@ export default function QuizManagerPage({
               />
             </label>
 
-            <div
-              style={{
-                display: "flex",
-                alignItems: "end",
-                flexWrap: "wrap",
-                gap: "10px",
-              }}
-            >
+            <div style={actionRowStyle}>
               <button style={greenButtonStyle} type="submit">
                 {editingId ? "儲存修改" : "新增題目"}
               </button>
@@ -197,7 +203,7 @@ export default function QuizManagerPage({
                   type="button"
                   onClick={resetForm}
                 >
-                  取消
+                  取消編輯
                 </button>
               )}
             </div>
@@ -205,17 +211,15 @@ export default function QuizManagerPage({
         </div>
 
         <div style={tableCardStyle}>
-          <h2>老師測驗題庫</h2>
+          <h2>目前題目</h2>
 
           {quizQuestions.length === 0 ? (
-            <p style={{ color: "#666" }}>
-              尚未新增題目，請使用上方表單建立第一題選擇題。
-            </p>
+            <p style={helperTextStyle}>尚未新增題目。新增後會出現在學生測驗練習中。</p>
           ) : (
             <table
               style={{
                 width: "100%",
-                minWidth: "820px",
+                minWidth: "860px",
                 borderCollapse: "collapse",
               }}
             >

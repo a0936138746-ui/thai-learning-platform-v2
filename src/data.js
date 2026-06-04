@@ -1,3 +1,9 @@
+import angryImg from "./assets/flashcards/angry.jpeg";
+import confusedImg from "./assets/flashcards/confused.jpeg";
+import happyImg from "./assets/flashcards/happy.jpeg";
+import shoppingImg from "./assets/flashcards/shopping.jpeg";
+import understandImg from "./assets/flashcards/understand.jpeg";
+
 export const VOCABULARY_STORAGE_KEY = "thai-learning-teacher-vocabulary";
 export const SENTENCE_STORAGE_KEY = "thai-learning-teacher-sentences";
 export const QUIZ_STORAGE_KEY = "thai-learning-teacher-quiz-questions";
@@ -9,7 +15,7 @@ export const defaultFlashcards = [
   { id: "demo-vocab-002", category: "問候", zh: "謝謝", th: "ขอบคุณ", py: "khɔ̀ɔp-khun", image: "", audio: "" },
   { id: "demo-vocab-003", category: "問候", zh: "對不起", th: "ขอโทษ", py: "khɔ̌ɔ-thôot", image: "", audio: "" },
   { id: "demo-vocab-004", category: "問候", zh: "再見", th: "ลาก่อน", py: "laa-gɔ̀ɔn", image: "", audio: "" },
-  { id: "demo-vocab-005", category: "問候", zh: "沒關係", th: "ไม่เป็นไร", py: "mâi-bpen-rai", image: "", audio: "" },
+  { id: "demo-vocab-005", category: "問候", zh: "沒關係", th: "ไม่เป็นไร", py: "mâi-bpen-rai", image: understandImg, audio: "" },
   { id: "demo-vocab-006", category: "問候", zh: "是", th: "ใช่", py: "châi", image: "", audio: "" },
   { id: "demo-vocab-007", category: "問候", zh: "不是", th: "ไม่ใช่", py: "mâi-châi", image: "", audio: "" },
   { id: "demo-vocab-008", category: "數字", zh: "一", th: "หนึ่ง", py: "nʉ̀ng", image: "", audio: "" },
@@ -33,14 +39,14 @@ export const defaultFlashcards = [
   { id: "demo-vocab-026", category: "交通", zh: "右邊", th: "ขวา", py: "khwǎa", image: "", audio: "" },
   { id: "demo-vocab-027", category: "購物", zh: "多少錢", th: "เท่าไหร่", py: "thâo-rài", image: "", audio: "" },
   { id: "demo-vocab-028", category: "購物", zh: "便宜", th: "ถูก", py: "thùuk", image: "", audio: "" },
-  { id: "demo-vocab-029", category: "購物", zh: "貴", th: "แพง", py: "phɛɛng", image: "", audio: "" },
-  { id: "demo-vocab-030", category: "購物", zh: "買", th: "ซื้อ", py: "sʉ́ʉ", image: "", audio: "" },
+  { id: "demo-vocab-029", category: "購物", zh: "貴", th: "แพง", py: "phɛɛng", image: shoppingImg, audio: "" },
+  { id: "demo-vocab-030", category: "購物", zh: "買", th: "ซื้อ", py: "sʉ́ʉ", image: shoppingImg, audio: "" },
   { id: "demo-vocab-031", category: "購物", zh: "賣", th: "ขาย", py: "khǎai", image: "", audio: "" },
   { id: "demo-vocab-032", category: "購物", zh: "折扣", th: "ลดราคา", py: "lót-raa-khaa", image: "", audio: "" },
   { id: "demo-vocab-033", category: "日常生活", zh: "家", th: "บ้าน", py: "bâan", image: "", audio: "" },
-  { id: "demo-vocab-034", category: "日常生活", zh: "學校", th: "โรงเรียน", py: "roong-rian", image: "", audio: "" },
+  { id: "demo-vocab-034", category: "日常生活", zh: "學校", th: "โรงเรียน", py: "roong-rian", image: happyImg, audio: "" },
   { id: "demo-vocab-035", category: "日常生活", zh: "老師", th: "ครู", py: "khruu", image: "", audio: "" },
-  { id: "demo-vocab-036", category: "日常生活", zh: "學生", th: "นักเรียน", py: "nák-rian", image: "", audio: "" },
+  { id: "demo-vocab-036", category: "日常生活", zh: "學生", th: "นักเรียน", py: "nák-rian", image: confusedImg, audio: "" },
   { id: "demo-vocab-037", category: "日常生活", zh: "朋友", th: "เพื่อน", py: "phʉ̂an", image: "", audio: "" },
   { id: "demo-vocab-038", category: "日常生活", zh: "今天", th: "วันนี้", py: "wan-níi", image: "", audio: "" },
   { id: "demo-vocab-039", category: "旅遊", zh: "旅館", th: "โรงแรม", py: "roong-rɛɛm", image: "", audio: "" },
@@ -53,7 +59,7 @@ export const defaultFlashcards = [
   { id: "demo-vocab-046", category: "緊急狀況", zh: "醫院", th: "โรงพยาบาล", py: "roong-phá-yaa-baan", image: "", audio: "" },
   { id: "demo-vocab-047", category: "緊急狀況", zh: "警察", th: "ตำรวจ", py: "tam-rùat", image: "", audio: "" },
   { id: "demo-vocab-048", category: "緊急狀況", zh: "藥局", th: "ร้านขายยา", py: "ráan-khǎai-yaa", image: "", audio: "" },
-  { id: "demo-vocab-049", category: "緊急狀況", zh: "不舒服", th: "ไม่สบาย", py: "mâi-sà-baai", image: "", audio: "" },
+  { id: "demo-vocab-049", category: "緊急狀況", zh: "不舒服", th: "ไม่สบาย", py: "mâi-sà-baai", image: angryImg, audio: "" },
   { id: "demo-vocab-050", category: "緊急狀況", zh: "迷路", th: "หลงทาง", py: "lǒng-thaang", image: "", audio: "" },
 ];
 

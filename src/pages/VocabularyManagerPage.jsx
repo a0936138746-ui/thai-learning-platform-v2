@@ -1,13 +1,47 @@
 import { useState } from "react";
-import { backButtonStyle, dangerButtonStyle, formStyle, greenButtonStyle, inputStyle, labelStyle, pageStyle, smallButtonStyle, subtitleStyle, tableCardStyle, tdStyle, teacherPanelStyle, thStyle, titleStyle } from "../styles";
+import {
+  backButtonStyle,
+  dangerButtonStyle,
+  formStyle,
+  greenButtonStyle,
+  inputStyle,
+  labelStyle,
+  pageStyle,
+  smallButtonStyle,
+  subtitleStyle,
+  tableCardStyle,
+  tdStyle,
+  teacherPanelStyle,
+  thStyle,
+  titleStyle,
+} from "../styles";
+
+const emptyVocabularyForm = {
+  category: "",
+  zh: "",
+  th: "",
+  py: "",
+};
+
+const helperTextStyle = {
+  color: "#64748b",
+  lineHeight: 1.6,
+  marginTop: 0,
+};
+
+const actionRowStyle = {
+  display: "flex",
+  alignItems: "end",
+  flexWrap: "wrap",
+  gap: "10px",
+};
 
 export default function VocabularyManagerPage({
   setPage,
   teacherVocabulary,
   setTeacherVocabulary,
 }) {
-  const emptyForm = { zh: "", th: "", py: "" };
-  const [form, setForm] = useState(emptyForm);
+  const [form, setForm] = useState(emptyVocabularyForm);
   const [editingId, setEditingId] = useState(null);
 
   function updateForm(field, value) {
@@ -15,7 +49,7 @@ export default function VocabularyManagerPage({
   }
 
   function resetForm() {
-    setForm(emptyForm);
+    setForm(emptyVocabularyForm);
     setEditingId(null);
   }
 
@@ -23,6 +57,7 @@ export default function VocabularyManagerPage({
     event.preventDefault();
 
     const vocabularyItem = {
+      category: form.category.trim() || "未分類",
       zh: form.zh.trim(),
       th: form.th.trim(),
       py: form.py.trim(),
@@ -41,7 +76,7 @@ export default function VocabularyManagerPage({
     } else {
       setTeacherVocabulary([
         ...teacherVocabulary,
-        { id: Date.now().toString(), ...vocabularyItem },
+        { id: Date.now().toString(), image: "", audio: "", ...vocabularyItem },
       ]);
     }
 
@@ -50,7 +85,12 @@ export default function VocabularyManagerPage({
 
   function editVocabulary(item) {
     setEditingId(item.id);
-    setForm({ zh: item.zh, th: item.th, py: item.py });
+    setForm({
+      category: item.category || "",
+      zh: item.zh,
+      th: item.th,
+      py: item.py || "",
+    });
   }
 
   function deleteVocabulary(id) {
@@ -64,19 +104,30 @@ export default function VocabularyManagerPage({
   return (
     <div style={pageStyle}>
       <button style={backButtonStyle} onClick={() => setPage("teacher")}>
-        ← 回老師後台
+        回老師後台
       </button>
 
       <h1 style={titleStyle}>單字管理</h1>
-      <p style={subtitleStyle}>
-        老師新增的單字會自動儲存，並出現在學生的單字圖卡中。
-      </p>
+      <p style={subtitleStyle}>維護學生圖卡使用的泰文單字、分類與拼音。</p>
 
       <div style={teacherPanelStyle}>
         <div style={tableCardStyle}>
           <h2>{editingId ? "編輯單字" : "新增單字"}</h2>
+          <p style={helperTextStyle}>
+            中文與泰文為必填。分類會出現在學生圖卡的篩選選單。
+          </p>
 
           <form onSubmit={saveVocabulary} style={formStyle}>
+            <label style={labelStyle}>
+              分類
+              <input
+                style={inputStyle}
+                value={form.category}
+                onChange={(event) => updateForm("category", event.target.value)}
+                placeholder="例如：問候、餐廳、交通"
+              />
+            </label>
+
             <label style={labelStyle}>
               中文
               <input
@@ -98,7 +149,7 @@ export default function VocabularyManagerPage({
             </label>
 
             <label style={labelStyle}>
-              拼音 / 發音
+              拼音
               <input
                 style={inputStyle}
                 value={form.py}
@@ -107,14 +158,7 @@ export default function VocabularyManagerPage({
               />
             </label>
 
-            <div
-              style={{
-                display: "flex",
-                alignItems: "end",
-                flexWrap: "wrap",
-                gap: "10px",
-              }}
-            >
+            <div style={actionRowStyle}>
               <button style={greenButtonStyle} type="submit">
                 {editingId ? "儲存修改" : "新增單字"}
               </button>
@@ -125,7 +169,7 @@ export default function VocabularyManagerPage({
                   type="button"
                   onClick={resetForm}
                 >
-                  取消
+                  取消編輯
                 </button>
               )}
             </div>
@@ -133,22 +177,21 @@ export default function VocabularyManagerPage({
         </div>
 
         <div style={tableCardStyle}>
-          <h2>老師單字庫</h2>
+          <h2>目前單字</h2>
 
           {teacherVocabulary.length === 0 ? (
-            <p style={{ color: "#666" }}>
-              尚未新增單字，請使用上方表單建立第一張圖卡。
-            </p>
+            <p style={helperTextStyle}>尚未新增單字。新增後會出現在學生圖卡中。</p>
           ) : (
             <table
               style={{
                 width: "100%",
-                minWidth: "620px",
+                minWidth: "720px",
                 borderCollapse: "collapse",
               }}
             >
               <thead>
                 <tr>
+                  <th style={thStyle}>分類</th>
                   <th style={thStyle}>中文</th>
                   <th style={thStyle}>泰文</th>
                   <th style={thStyle}>拼音</th>
@@ -158,9 +201,10 @@ export default function VocabularyManagerPage({
               <tbody>
                 {teacherVocabulary.map((item) => (
                   <tr key={item.id}>
+                    <td style={tdStyle}>{item.category || "未分類"}</td>
                     <td style={tdStyle}>{item.zh}</td>
                     <td style={tdStyle}>{item.th}</td>
-                    <td style={tdStyle}>{item.py || "—"}</td>
+                    <td style={tdStyle}>{item.py || "-"}</td>
                     <td style={tdStyle}>
                       <button
                         style={smallButtonStyle}
@@ -185,4 +229,3 @@ export default function VocabularyManagerPage({
     </div>
   );
 }
-
