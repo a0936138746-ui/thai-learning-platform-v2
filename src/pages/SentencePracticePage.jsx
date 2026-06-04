@@ -54,14 +54,14 @@ export default function SentencePracticePage({ setPage, teacherSentences }) {
       <div style={pageStyle}>
         <main style={shellStyle}>
           <button style={backButtonStyle} onClick={() => setPage("student")}>
-            回學生中心
+            回學生入口
           </button>
 
           <h1 style={titleStyle}>句型練習</h1>
           <p style={subtitleStyle}>目前還沒有句型資料。</p>
 
           <div style={emptyPanelStyle}>
-            請先到老師後台新增句型，或重置 demo 資料後再回來練習。
+            請先到老師後台新增句庫，或回首頁重新載入示範資料。
           </div>
         </main>
       </div>
@@ -88,15 +88,15 @@ export default function SentencePracticePage({ setPage, teacherSentences }) {
     <div style={pageStyle}>
       <main style={shellStyle}>
         <button style={backButtonStyle} onClick={() => setPage("student")}>
-          回學生中心
+          回學生入口
         </button>
 
         <h1 style={titleStyle}>句型練習</h1>
-        <p style={subtitleStyle}>先理解中文情境，再查看泰文句子與拼音。</p>
+        <p style={subtitleStyle}>先看中文情境，再顯示泰文句子和拼音。</p>
 
         <div style={practicePanelStyle}>
           <p style={progressStyle}>
-            第 {safeSentenceIndex + 1} 題 / 共 {practiceSentences.length} 題
+            第 {safeSentenceIndex + 1} 句 / 共 {practiceSentences.length} 句
           </p>
 
           <div style={sentencePromptStyle}>{sentence.zh}</div>
@@ -123,12 +123,12 @@ export default function SentencePracticePage({ setPage, teacherSentences }) {
                   playThaiAudio({ audio: sentence.audio, text: sentence.th })
                 }
               >
-                播放泰文
+                播放發音
               </button>
             </div>
           ) : (
             <button style={greenButtonStyle} onClick={() => setShowAnswer(true)}>
-              查看泰文答案
+              顯示泰文答案
             </button>
           )}
 

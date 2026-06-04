@@ -27,7 +27,7 @@ export async function speakThai(text) {
   }
 
   if (!("speechSynthesis" in window)) {
-    alert("這個瀏覽器目前不支援語音朗讀。");
+    alert("這個瀏覽器不支援語音播放。");
     return;
   }
 
@@ -47,7 +47,7 @@ export async function speakThai(text) {
   }
 
   utterance.onerror = () => {
-    alert("播放失敗。請確認瀏覽器或 Windows 已安裝可用語音，並且網站分頁沒有被靜音。");
+    alert("語音播放失敗。之後建議改用固定音檔，品質會比較穩定。");
   };
 
   window.speechSynthesis.speak(utterance);
@@ -60,7 +60,7 @@ export function playAudioFile(audioUrl) {
 
   const audio = new Audio(audioUrl);
   audio.play().catch(() => {
-    alert("音檔播放失敗。請確認音檔路徑正確，並且瀏覽器沒有封鎖音訊。");
+    alert("音檔播放失敗，請確認音檔路徑是否正確。");
   });
 
   return true;

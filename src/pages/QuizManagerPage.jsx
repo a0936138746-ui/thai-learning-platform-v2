@@ -128,13 +128,13 @@ export default function QuizManagerPage({
         回老師後台
       </button>
 
-      <h1 style={titleStyle}>測驗題庫</h1>
-      <p style={subtitleStyle}>建立學生測驗使用的選擇題與正確答案。</p>
+      <h1 style={titleStyle}>題庫管理</h1>
+      <p style={subtitleStyle}>建立學生測驗會用到的選擇題，並設定正確答案。</p>
 
       <div style={teacherPanelStyle}>
         <div style={tableCardStyle}>
-          <h2>{editingId ? "編輯題目" : "新增題目"}</h2>
-          <p style={helperTextStyle}>題目與三個選項皆為必填，答案可選 A、B 或 C。</p>
+          <h2>{editingId ? "修改題目" : "新增題目"}</h2>
+          <p style={helperTextStyle}>題目和三個選項都要填寫，正確答案可選 A、B 或 C。</p>
 
           <form onSubmit={saveQuestion} style={sentenceFormStyle}>
             <label style={labelStyle}>
@@ -143,7 +143,7 @@ export default function QuizManagerPage({
                 style={textareaStyle}
                 value={form.question}
                 onChange={(event) => updateForm("question", event.target.value)}
-                placeholder="例如：泰文的「你好」怎麼說？"
+                placeholder="例如：泰文的「謝謝」是哪一個？"
               />
             </label>
 
@@ -168,7 +168,7 @@ export default function QuizManagerPage({
                 style={inputStyle}
                 value={form.optionA}
                 onChange={(event) => updateForm("optionA", event.target.value)}
-                placeholder="例如：สวัสดี"
+                placeholder="例如：ขอบคุณ"
               />
             </label>
 
@@ -178,7 +178,7 @@ export default function QuizManagerPage({
                 style={inputStyle}
                 value={form.optionB}
                 onChange={(event) => updateForm("optionB", event.target.value)}
-                placeholder="例如：ขอบคุณ"
+                placeholder="例如：สวัสดี"
               />
             </label>
 
@@ -203,7 +203,7 @@ export default function QuizManagerPage({
                   type="button"
                   onClick={resetForm}
                 >
-                  取消編輯
+                  取消修改
                 </button>
               )}
             </div>
@@ -211,7 +211,7 @@ export default function QuizManagerPage({
         </div>
 
         <div style={tableCardStyle}>
-          <h2>目前題目</h2>
+          <h2>目前題庫</h2>
 
           {quizQuestions.length === 0 ? (
             <p style={helperTextStyle}>尚未新增題目。新增後會出現在學生測驗練習中。</p>
@@ -248,7 +248,7 @@ export default function QuizManagerPage({
                         style={smallButtonStyle}
                         onClick={() => editQuestion(item)}
                       >
-                        編輯
+                        修改
                       </button>
                       <button
                         style={dangerButtonStyle}

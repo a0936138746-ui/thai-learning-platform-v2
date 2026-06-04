@@ -133,12 +133,12 @@ export default function BookingPage({ setPage }) {
           </button>
         </div>
 
-        <h1 style={titleStyle}>課程預約</h1>
-        <p style={subtitleStyle}>建立與查看課程時間，先用本機資料管理 demo 預約。</p>
+        <h1 style={titleStyle}>預約時段</h1>
+        <p style={subtitleStyle}>先用簡單表單記錄課程預約，後續可接通知和日曆。</p>
 
         <div style={tableCardStyle}>
           <h2>新增預約</h2>
-          <p style={helperTextStyle}>學生姓名、課程類型、日期與時間為必填。</p>
+          <p style={helperTextStyle}>學生姓名、課程類型、日期和時間為必填。</p>
 
           <form onSubmit={saveBooking} style={formGridStyle}>
             <label style={labelStyle}>
@@ -157,7 +157,7 @@ export default function BookingPage({ setPage }) {
                 style={inputStyle}
                 value={form.courseType}
                 onChange={(event) => updateForm("courseType", event.target.value)}
-                placeholder="例如：泰文口說、單字複習"
+                placeholder="例如：旅遊泰文、發音練習"
               />
             </label>
 
@@ -187,7 +187,7 @@ export default function BookingPage({ setPage }) {
                 style={textareaStyle}
                 value={form.note}
                 onChange={(event) => updateForm("note", event.target.value)}
-                placeholder="例如：學生想加強餐廳情境對話"
+                placeholder="例如：想加強點餐和問路"
               />
             </label>
 
@@ -210,7 +210,7 @@ export default function BookingPage({ setPage }) {
           <h2>目前預約</h2>
 
           {sortedBookings.length === 0 ? (
-            <p style={helperTextStyle}>目前還沒有課程預約。</p>
+            <p style={helperTextStyle}>目前還沒有預約紀錄。</p>
           ) : (
             <table
               style={{

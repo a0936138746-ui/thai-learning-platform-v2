@@ -85,7 +85,7 @@ export default function LearningProgressPage({ setPage, learningProgress }) {
         </button>
 
         <h1 style={titleStyle}>學習紀錄</h1>
-        <p style={subtitleStyle}>查看學生完成測驗後留下的練習紀錄與正確率。</p>
+        <p style={subtitleStyle}>查看學生完成測驗後留下的練習紀錄。</p>
 
         <section style={summaryGridStyle}>
           <div style={summaryCardStyle}>
@@ -97,7 +97,7 @@ export default function LearningProgressPage({ setPage, learningProgress }) {
             <div style={summaryValueStyle}>{bestAccuracy}%</div>
           </div>
           <div style={summaryCardStyle}>
-            <div style={summaryLabelStyle}>最近作答</div>
+            <div style={summaryLabelStyle}>最近練習</div>
             <div style={{ color: "#111827", lineHeight: 1.5 }}>
               {latestRecord ? formatAnsweredAt(latestRecord.answeredAt) : "尚無紀錄"}
             </div>
@@ -109,7 +109,7 @@ export default function LearningProgressPage({ setPage, learningProgress }) {
 
           {learningProgress.length === 0 ? (
             <p style={helperTextStyle}>
-              目前還沒有測驗紀錄。學生完成一輪測驗後，這裡會自動新增紀錄。
+              目前還沒有測驗紀錄。學生完成一次測驗後，這裡會顯示答題時間和正確率。
             </p>
           ) : (
             <table
@@ -121,7 +121,7 @@ export default function LearningProgressPage({ setPage, learningProgress }) {
             >
               <thead>
                 <tr>
-                  <th style={thStyle}>作答時間</th>
+                  <th style={thStyle}>完成時間</th>
                   <th style={thStyle}>總題數</th>
                   <th style={thStyle}>答對題數</th>
                   <th style={thStyle}>正確率</th>

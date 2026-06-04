@@ -42,7 +42,7 @@ const noteStyle = {
 };
 
 function showComingSoon() {
-  alert("這個管理功能還在規劃中。");
+  alert("這個管理功能會放到後續版本，先把內容和學習流程穩定下來。");
 }
 
 export default function TeacherPage({ setPage }) {
@@ -54,42 +54,44 @@ export default function TeacherPage({ setPage }) {
         </button>
 
         <h1 style={titleStyle}>老師管理後台</h1>
-        <p style={subtitleStyle}>集中管理教材、題庫、預約與學生練習成果。</p>
+        <p style={subtitleStyle}>
+          先管理內容資料，等平台穩定後再接正式資料庫與權限。
+        </p>
 
         <div style={gridStyle}>
           <div style={managementCardStyle} onClick={() => setPage("vocabulary")}>
-            <h2 style={cardTitleStyle}>單字管理</h2>
-            <p style={cardTextStyle}>新增、修改與刪除泰文單字，作為圖卡內容來源。</p>
+            <h2 style={cardTitleStyle}>字庫管理</h2>
+            <p style={cardTextStyle}>新增、修改、刪除泰文單字，包含分類、拼音和音檔路徑。</p>
           </div>
 
           <div style={managementCardStyle} onClick={() => setPage("sentences")}>
-            <h2 style={cardTitleStyle}>句型管理</h2>
-            <p style={cardTextStyle}>維護常用句型、中文意思、拼音與使用提示。</p>
+            <h2 style={cardTitleStyle}>句庫管理</h2>
+            <p style={cardTextStyle}>整理常用句型、中文意思、泰文句子和補充說明。</p>
           </div>
 
           <div style={managementCardStyle} onClick={() => setPage("quizManager")}>
-            <h2 style={cardTitleStyle}>測驗題庫</h2>
-            <p style={cardTextStyle}>建立選擇題，讓學生能用測驗檢查學習成果。</p>
+            <h2 style={cardTitleStyle}>題庫管理</h2>
+            <p style={cardTextStyle}>編輯選擇題，支援 A、B、C 三個選項與正確答案。</p>
           </div>
 
           <div style={managementCardStyle} onClick={() => setPage("learningProgress")}>
             <h2 style={cardTitleStyle}>學習紀錄</h2>
-            <p style={cardTextStyle}>查看最近測驗次數、答對題數與作答時間。</p>
+            <p style={cardTextStyle}>查看學生端測驗完成紀錄，先用本機資料驗證流程。</p>
           </div>
 
           <div style={managementCardStyle} onClick={() => setPage("booking")}>
-            <h2 style={cardTitleStyle}>課程預約</h2>
-            <p style={cardTextStyle}>管理上課時間、學生姓名、課程類型與備註。</p>
+            <h2 style={cardTitleStyle}>預約時段</h2>
+            <p style={cardTextStyle}>保留課程預約入口，之後可接通知和日曆。</p>
           </div>
 
           <div style={managementCardStyle} onClick={showComingSoon}>
-            <h2 style={cardTitleStyle}>AI 教材生成</h2>
-            <p style={cardTextStyle}>未來可依主題自動產生單字、例句與測驗草稿。</p>
+            <h2 style={cardTitleStyle}>AI 內容助手</h2>
+            <p style={cardTextStyle}>後續可協助批次產生單字、例句、測驗和圖片提示詞。</p>
           </div>
         </div>
 
         <div style={noteStyle}>
-          目前後台先以本機資料保存為主。等教材流程穩定後，再把這些資料接到雲端資料庫與帳號權限。
+          現在的後台資料會存放在目前瀏覽器中，適合 MVP 測試。正式上線前再升級成雲端資料庫，避免太早增加維護成本。
         </div>
       </main>
     </div>

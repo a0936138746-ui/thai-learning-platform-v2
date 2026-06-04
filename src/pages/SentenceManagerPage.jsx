@@ -111,13 +111,13 @@ export default function SentenceManagerPage({
         回老師後台
       </button>
 
-      <h1 style={titleStyle}>句型管理</h1>
-      <p style={subtitleStyle}>維護學生句型練習使用的中文情境、泰文句子與提示。</p>
+      <h1 style={titleStyle}>句庫管理</h1>
+      <p style={subtitleStyle}>整理學生句型練習會用到的中文情境、泰文句子、拼音和提示。</p>
 
       <div style={teacherPanelStyle}>
         <div style={tableCardStyle}>
-          <h2>{editingId ? "編輯句型" : "新增句型"}</h2>
-          <p style={helperTextStyle}>中文句子與泰文句子為必填，提示可補充使用情境。</p>
+          <h2>{editingId ? "修改句型" : "新增句型"}</h2>
+          <p style={helperTextStyle}>中文句子和泰文句子為必填，提示與音檔可以後續再補。</p>
 
           <form onSubmit={saveSentence} style={sentenceFormStyle}>
             <label style={labelStyle}>
@@ -126,7 +126,7 @@ export default function SentenceManagerPage({
                 style={textareaStyle}
                 value={form.zh}
                 onChange={(event) => updateForm("zh", event.target.value)}
-                placeholder="例如：我想喝水。"
+                placeholder="例如：我想喝水"
               />
             </label>
 
@@ -146,7 +146,7 @@ export default function SentenceManagerPage({
                 style={inputStyle}
                 value={form.py}
                 onChange={(event) => updateForm("py", event.target.value)}
-                placeholder="例如：chǎn yàak dʉ̀ʉm náam"
+                placeholder="例如：chan yaak duuem naam"
               />
             </label>
 
@@ -156,7 +156,7 @@ export default function SentenceManagerPage({
                 style={inputStyle}
                 value={form.note}
                 onChange={(event) => updateForm("note", event.target.value)}
-                placeholder="例如：在餐廳點飲料時使用"
+                placeholder="例如：適合點餐或日常情境"
               />
             </label>
 
@@ -166,7 +166,7 @@ export default function SentenceManagerPage({
                 style={inputStyle}
                 value={form.audio}
                 onChange={(event) => updateForm("audio", event.target.value)}
-                placeholder="例如：/audio/sentences/i-want-water.mp3"
+                placeholder="/audio/sentences/i-want-water.mp3"
               />
             </label>
 
@@ -181,7 +181,7 @@ export default function SentenceManagerPage({
                   type="button"
                   onClick={resetForm}
                 >
-                  取消編輯
+                  取消修改
                 </button>
               )}
             </div>
@@ -189,7 +189,7 @@ export default function SentenceManagerPage({
         </div>
 
         <div style={tableCardStyle}>
-          <h2>目前句型</h2>
+          <h2>目前句庫</h2>
 
           {teacherSentences.length === 0 ? (
             <p style={helperTextStyle}>尚未新增句型。新增後會出現在學生句型練習中。</p>
@@ -224,7 +224,7 @@ export default function SentenceManagerPage({
                         style={smallButtonStyle}
                         onClick={() => editSentence(item)}
                       >
-                        編輯
+                        修改
                       </button>
                       <button
                         style={dangerButtonStyle}

@@ -42,7 +42,7 @@ const statusStyle = {
 };
 
 function showComingSoon() {
-  alert("這個練習單元還在規劃中。");
+  alert("這個功能還在排程中，會等主要學習流程穩定後再加入。");
 }
 
 export default function StudentPage({ setPage }) {
@@ -53,43 +53,45 @@ export default function StudentPage({ setPage }) {
           回首頁
         </button>
 
-        <h1 style={titleStyle}>學生學習中心</h1>
-        <p style={subtitleStyle}>選擇今天要練習的內容，先用短時間建立穩定複習節奏。</p>
+        <h1 style={titleStyle}>學生學習入口</h1>
+        <p style={subtitleStyle}>
+          先從最重要的三個練習開始：字卡、句型、測驗。
+        </p>
 
         <div style={gridStyle}>
           <div style={learningCardStyle} onClick={() => setPage("flashcards")}>
-            <h2 style={cardTitleStyle}>單字圖卡</h2>
-            <p style={cardTextStyle}>依分類瀏覽單字，點擊卡片查看泰文與拼音。</p>
+            <h2 style={cardTitleStyle}>字卡練習</h2>
+            <p style={cardTextStyle}>依主題瀏覽單字，看中文、翻泰文、練發音。</p>
           </div>
 
           <div style={learningCardStyle} onClick={() => setPage("sentencePractice")}>
             <h2 style={cardTitleStyle}>句型練習</h2>
-            <p style={cardTextStyle}>用情境句子熟悉泰文用法與中文意思。</p>
+            <p style={cardTextStyle}>用常用中文句子反查泰文，建立實用表達。</p>
           </div>
 
           <div style={learningCardStyle} onClick={() => setPage("quiz")}>
             <h2 style={cardTitleStyle}>測驗練習</h2>
-            <p style={cardTextStyle}>用選擇題快速檢查記憶，完成後留下練習紀錄。</p>
+            <p style={cardTextStyle}>用選擇題檢查記憶，完成後會留下練習紀錄。</p>
           </div>
 
           <div style={learningCardStyle} onClick={showComingSoon}>
-            <h2 style={cardTitleStyle}>母音與子音</h2>
-            <p style={cardTextStyle}>後續可加入發音表、音節拆解與口說練習。</p>
+            <h2 style={cardTitleStyle}>複習清單</h2>
+            <p style={cardTextStyle}>之後會把錯題和不熟的單字集中成複習區。</p>
           </div>
 
           <div style={learningCardStyle} onClick={showComingSoon}>
-            <h2 style={cardTitleStyle}>每日複習</h2>
-            <p style={cardTextStyle}>未來可依錯題與複習時間自動安排學習清單。</p>
+            <h2 style={cardTitleStyle}>聽力訓練</h2>
+            <p style={cardTextStyle}>等音檔補齊後，再加入聽音選字與跟讀練習。</p>
           </div>
 
           <div style={learningCardStyle} onClick={showComingSoon}>
             <h2 style={cardTitleStyle}>AI 對話練習</h2>
-            <p style={cardTextStyle}>等核心流程穩定後，再加入情境對話與口說回饋。</p>
+            <p style={cardTextStyle}>後期可加入旅遊、點餐、問路等情境對話。</p>
           </div>
         </div>
 
         <div style={statusStyle}>
-          建議流程：先看單字圖卡，再練句型，最後做測驗。這樣 demo 會像一套完整學習流程，而不是分散工具。
+          目前建議先把三個核心練習做順，再逐步補圖片、音檔、進度統計和登入資料庫。
         </div>
       </main>
     </div>

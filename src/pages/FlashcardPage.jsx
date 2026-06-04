@@ -192,14 +192,14 @@ export default function FlashcardPage({
       <div style={pageStyle}>
         <main style={shellStyle}>
           <button style={backButtonStyle} onClick={() => setPage("student")}>
-            回學生中心
+            回學生入口
           </button>
 
-          <h1 style={titleStyle}>單字圖卡</h1>
-          <p style={subtitleStyle}>目前還沒有單字資料。</p>
+          <h1 style={titleStyle}>字卡練習</h1>
+          <p style={subtitleStyle}>目前還沒有字卡資料。</p>
 
           <div style={emptyPanelStyle}>
-            請先到老師後台新增單字，或重置 demo 資料後再回來練習。
+            請先到老師後台新增字庫，或回首頁重新載入示範資料。
           </div>
         </main>
       </div>
@@ -210,11 +210,11 @@ export default function FlashcardPage({
     <div style={pageStyle}>
       <main style={shellStyle}>
         <button style={backButtonStyle} onClick={() => setPage("student")}>
-          回學生中心
+          回學生入口
         </button>
 
-        <h1 style={titleStyle}>單字圖卡</h1>
-        <p style={subtitleStyle}>先看中文，點擊卡片翻面查看泰文與拼音。</p>
+        <h1 style={titleStyle}>字卡練習</h1>
+        <p style={subtitleStyle}>先看中文，點卡片翻成泰文，再練習拼音和發音。</p>
 
         <div style={controlRowStyle}>
           <label style={selectLabelStyle}>
@@ -241,7 +241,7 @@ export default function FlashcardPage({
             {showImage ? (
               <img
                 src={imageUrl}
-                alt={`${card.zh} 圖卡`}
+                alt={`${card.zh} 字卡圖片`}
                 onError={() => setFailedImageUrl(imageUrl)}
                 style={{
                   width: "100%",
@@ -251,7 +251,7 @@ export default function FlashcardPage({
                 }}
               />
             ) : (
-              <span>尚未設定圖片</span>
+              <span>尚未加入圖片</span>
             )}
           </div>
 
@@ -263,7 +263,7 @@ export default function FlashcardPage({
           ) : (
             <div style={frontTextStyle}>
               <div style={mainWordStyle}>{card.zh}</div>
-              <div style={helperTextStyle}>點擊卡片查看泰文</div>
+              <div style={helperTextStyle}>點一下查看泰文</div>
             </div>
           )}
         </div>
@@ -272,9 +272,12 @@ export default function FlashcardPage({
           {card?.th && (
             <button
               style={smallButtonStyle}
-              onClick={() => playThaiAudio({ audio: card.audio, text: card.th })}
+              onClick={(event) => {
+                event.stopPropagation();
+                playThaiAudio({ audio: card.audio, text: card.th });
+              }}
             >
-              播放泰文
+              播放發音
             </button>
           )}
           <button style={smallButtonStyle} onClick={prevCard}>

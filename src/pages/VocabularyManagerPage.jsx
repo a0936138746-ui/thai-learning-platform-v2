@@ -110,14 +110,14 @@ export default function VocabularyManagerPage({
         回老師後台
       </button>
 
-      <h1 style={titleStyle}>單字管理</h1>
-      <p style={subtitleStyle}>維護學生圖卡使用的泰文單字、分類與拼音。</p>
+      <h1 style={titleStyle}>字庫管理</h1>
+      <p style={subtitleStyle}>整理學生字卡會用到的中文、泰文、拼音和音檔路徑。</p>
 
       <div style={teacherPanelStyle}>
         <div style={tableCardStyle}>
-          <h2>{editingId ? "編輯單字" : "新增單字"}</h2>
+          <h2>{editingId ? "修改單字" : "新增單字"}</h2>
           <p style={helperTextStyle}>
-            中文與泰文為必填。分類會出現在學生圖卡的篩選選單。
+            中文和泰文為必填。音檔可以先留空，之後補在 public/audio 資料夾後再填路徑。
           </p>
 
           <form onSubmit={saveVocabulary} style={formStyle}>
@@ -127,7 +127,7 @@ export default function VocabularyManagerPage({
                 style={inputStyle}
                 value={form.category}
                 onChange={(event) => updateForm("category", event.target.value)}
-                placeholder="例如：問候、餐廳、交通"
+                placeholder="例如：問候、食物、交通"
               />
             </label>
 
@@ -167,7 +167,7 @@ export default function VocabularyManagerPage({
                 style={inputStyle}
                 value={form.audio}
                 onChange={(event) => updateForm("audio", event.target.value)}
-                placeholder="例如：/audio/vocab/khruu.mp3"
+                placeholder="/audio/vocab/khruu.mp3"
               />
             </label>
 
@@ -182,7 +182,7 @@ export default function VocabularyManagerPage({
                   type="button"
                   onClick={resetForm}
                 >
-                  取消編輯
+                  取消修改
                 </button>
               )}
             </div>
@@ -190,10 +190,10 @@ export default function VocabularyManagerPage({
         </div>
 
         <div style={tableCardStyle}>
-          <h2>目前單字</h2>
+          <h2>目前字庫</h2>
 
           {teacherVocabulary.length === 0 ? (
-            <p style={helperTextStyle}>尚未新增單字。新增後會出現在學生圖卡中。</p>
+            <p style={helperTextStyle}>尚未新增單字。新增後會出現在學生字卡練習中。</p>
           ) : (
             <table
               style={{
@@ -225,7 +225,7 @@ export default function VocabularyManagerPage({
                         style={smallButtonStyle}
                         onClick={() => editVocabulary(item)}
                       >
-                        編輯
+                        修改
                       </button>
                       <button
                         style={dangerButtonStyle}

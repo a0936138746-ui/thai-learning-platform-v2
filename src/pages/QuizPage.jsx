@@ -75,14 +75,14 @@ export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
       <div style={pageStyle}>
         <main style={shellStyle}>
           <button style={backButtonStyle} onClick={() => setPage("student")}>
-            回學生中心
+            回學生入口
           </button>
 
           <h1 style={titleStyle}>測驗練習</h1>
           <p style={subtitleStyle}>目前還沒有測驗題目。</p>
 
           <div style={emptyPanelStyle}>
-            請先到老師後台新增測驗題，或重置 demo 資料後再回來練習。
+            請先到老師後台新增題庫，或回首頁重新載入示範資料。
           </div>
         </main>
       </div>
@@ -152,7 +152,7 @@ export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
     <div style={pageStyle}>
       <main style={shellStyle}>
         <button style={backButtonStyle} onClick={() => setPage("student")}>
-          回學生中心
+          回學生入口
         </button>
 
         <h1 style={titleStyle}>測驗練習</h1>
@@ -160,7 +160,7 @@ export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
 
         <div style={quizPanelStyle}>
           <p style={progressStyle}>
-            第 {safeQuestionIndex + 1} 題 / 共 {quizQuestions.length} 題，已作答{" "}
+            第 {safeQuestionIndex + 1} 題 / 共 {quizQuestions.length} 題，已回答{" "}
             {answeredCount} 題
           </p>
 
@@ -191,7 +191,7 @@ export default function QuizPage({ setPage, quizQuestions, onQuizCompleted }) {
                   marginBottom: "12px",
                 }}
               >
-                {isCorrect ? "答對了" : "還差一點"}
+                {isCorrect ? "答對了" : "再練一次"}
               </div>
               <p style={hintStyle}>
                 正確答案：{correctOption.label}. {correctOption.text}

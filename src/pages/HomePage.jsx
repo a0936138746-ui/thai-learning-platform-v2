@@ -148,7 +148,7 @@ const refreshButtonStyle = {
 
 async function reloadLatestDemo() {
   const shouldReload = confirm(
-    "要清除本機練習資料並重新載入預設 demo 嗎？"
+    "要清除目前瀏覽器內的練習資料，重新載入最新示範資料嗎？"
   );
 
   if (!shouldReload) {
@@ -178,9 +178,9 @@ export default function HomePage({ setPage }) {
 
         <section style={introStyle}>
           <h1 style={titleStyle}>泰文學習平台 MVP</h1>
-          <p style={subtitleStyle}>先穩定學習流程，再逐步擴充教材與資料庫。</p>
+          <p style={subtitleStyle}>先把學習流程做穩，再逐步補上內容、音檔與資料庫。</p>
           <p style={introTextStyle}>
-            目前版本提供學生練習、老師教材管理、測驗紀錄與課程預約。資料先保存在本機瀏覽器，方便快速展示與迭代。
+            目前版本已經可以練習字卡、句型、測驗，也能從老師端管理字庫、句庫和題庫。音檔欄位已準備好，之後只要補上檔案即可啟用播放。
           </p>
         </section>
 
@@ -188,12 +188,12 @@ export default function HomePage({ setPage }) {
           <div style={actionCardStyle} onClick={() => setPage("student")}>
             <div>
               <div style={cardLabelStyle}>Student</div>
-              <h2 style={cardTitleStyle}>學生學習中心</h2>
+              <h2 style={cardTitleStyle}>學生學習入口</h2>
               <p style={cardTextStyle}>
-                練習單字圖卡、句型與測驗，適合做每日短時間複習。
+                從字卡、句型、測驗開始練習，適合先做內容驗證和學習流程測試。
               </p>
             </div>
-            <strong>開始練習</strong>
+            <strong>開始學習</strong>
           </div>
 
           <div style={actionCardStyle} onClick={() => setPage("teacher")}>
@@ -201,18 +201,18 @@ export default function HomePage({ setPage }) {
               <div style={cardLabelStyle}>Teacher</div>
               <h2 style={cardTitleStyle}>老師管理後台</h2>
               <p style={cardTextStyle}>
-                管理單字、句型與測驗題，檢視學生練習成果。
+                管理字庫、句庫、題庫和學習紀錄，先用本機儲存支撐 MVP。
               </p>
             </div>
-            <strong>管理教材</strong>
+            <strong>進入後台</strong>
           </div>
 
           <div style={actionCardStyle} onClick={() => setPage("booking")}>
             <div>
               <div style={cardLabelStyle}>Schedule</div>
-              <h2 style={cardTitleStyle}>課程預約</h2>
+              <h2 style={cardTitleStyle}>預約與時段</h2>
               <p style={cardTextStyle}>
-                建立課程時間、學生姓名、課程類型與備註。
+                先保留課程預約流程，後續可接資料庫與通知系統。
               </p>
             </div>
             <strong>查看預約</strong>
@@ -223,44 +223,44 @@ export default function HomePage({ setPage }) {
           <h2 style={sectionHeaderStyle}>目前已完成</h2>
           <div style={infoGridStyle}>
             <div style={infoCardStyle}>
-              <strong>教材資料</strong>
-              <p style={mutedTextStyle}>內建泰文單字、句型與測驗題，支援老師後台調整。</p>
+              <strong>內容資料</strong>
+              <p style={mutedTextStyle}>已建立字庫、句型、題庫，可從老師後台持續增修。</p>
             </div>
             <div style={infoCardStyle}>
-              <strong>學習互動</strong>
-              <p style={mutedTextStyle}>學生可以翻圖卡、練句型、作答測驗並留下紀錄。</p>
+              <strong>學生練習</strong>
+              <p style={mutedTextStyle}>支援字卡翻面、分類篩選、句型看答案和測驗記錄。</p>
             </div>
             <div style={infoCardStyle}>
-              <strong>本機保存</strong>
-              <p style={mutedTextStyle}>目前使用 localStorage 保存，適合 MVP 展示與快速測試。</p>
+              <strong>音檔準備</strong>
+              <p style={mutedTextStyle}>資料欄位已保留，音檔可等內容穩定後再補。</p>
             </div>
           </div>
         </section>
 
         <section style={sectionStyle}>
-          <h2 style={sectionHeaderStyle}>接下來方向</h2>
+          <h2 style={sectionHeaderStyle}>下一階段方向</h2>
           <div style={infoGridStyle}>
             <div style={infoCardStyle}>
-              <strong>穩定平台</strong>
-              <p style={mutedTextStyle}>先整理頁面、修正文案與入口流程。</p>
+              <strong>豐富頁面</strong>
+              <p style={mutedTextStyle}>把學生端整理成更完整的學習路徑和章節感。</p>
             </div>
             <div style={infoCardStyle}>
-              <strong>豐富內容</strong>
-              <p style={mutedTextStyle}>逐步增加字庫、例句、測驗題與一致風格圖片。</p>
+              <strong>擴充素材</strong>
+              <p style={mutedTextStyle}>繼續補字庫、題庫、圖片，音檔最後批次加入。</p>
             </div>
             <div style={infoCardStyle}>
-              <strong>雲端資料庫</strong>
-              <p style={mutedTextStyle}>等前端穩定後，再加入登入、權限與多人共用資料。</p>
+              <strong>資料庫升級</strong>
+              <p style={mutedTextStyle}>等流程成熟後，再接正式登入、雲端資料與後台權限。</p>
             </div>
           </div>
         </section>
 
         <div style={refreshPanelStyle}>
           <span style={mutedTextStyle}>
-            若本機資料混亂，可以重置 demo 內容重新開始。
+            如果看不到最新示範資料，可以清除瀏覽器內的舊資料後重新載入。
           </span>
           <button style={refreshButtonStyle} onClick={reloadLatestDemo}>
-            重置 demo 資料
+            重新載入示範資料
           </button>
         </div>
       </main>
