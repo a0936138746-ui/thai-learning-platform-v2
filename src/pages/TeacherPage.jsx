@@ -48,6 +48,39 @@ const noteStyle = {
   lineHeight: 1.6,
 };
 
+const summaryGridStyle = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(min(150px, 100%), 1fr))",
+  gap: "14px",
+  marginBottom: "24px",
+};
+
+const summaryCardStyle = {
+  background: "white",
+  padding: "18px",
+  borderRadius: "16px",
+  border: "1px solid #e5e7eb",
+  boxShadow: "0 5px 20px rgba(0,0,0,0.05)",
+};
+
+const summaryLabelStyle = {
+  color: "#64748b",
+  fontSize: "14px",
+  fontWeight: "bold",
+  marginBottom: "8px",
+};
+
+const summaryValueStyle = {
+  color: "#111827",
+  fontSize: "clamp(24px, 7vw, 34px)",
+  fontWeight: "bold",
+};
+
+const sectionTitleStyle = {
+  margin: "26px 0 14px",
+  color: "#111827",
+};
+
 function showComingSoon() {
   alert("這個管理功能會放到後續版本，先把內容和學習流程穩定下來。");
 }
@@ -79,7 +112,18 @@ async function resetDemoData() {
   window.location.replace(`${window.location.pathname}?reset=${Date.now()}`);
 }
 
-export default function TeacherPage({ setPage }) {
+export default function TeacherPage({
+  setPage,
+  teacherVocabulary,
+  teacherSentences,
+  quizQuestions,
+  learningProgress,
+}) {
+  const imageCount = teacherVocabulary.filter((item) => item.image).length;
+  const audioCount =
+    teacherVocabulary.filter((item) => item.audio).length +
+    teacherSentences.filter((item) => item.audio).length;
+
   return (
     <div style={pageStyle}>
       <main style={shellStyle}>
@@ -92,6 +136,34 @@ export default function TeacherPage({ setPage }) {
           先管理內容資料，等平台穩定後再接正式資料庫與權限。
         </p>
 
+        <section style={summaryGridStyle}>
+          <div style={summaryCardStyle}>
+            <div style={summaryLabelStyle}>字卡</div>
+            <div style={summaryValueStyle}>{teacherVocabulary.length}</div>
+          </div>
+          <div style={summaryCardStyle}>
+            <div style={summaryLabelStyle}>句型</div>
+            <div style={summaryValueStyle}>{teacherSentences.length}</div>
+          </div>
+          <div style={summaryCardStyle}>
+            <div style={summaryLabelStyle}>題目</div>
+            <div style={summaryValueStyle}>{quizQuestions.length}</div>
+          </div>
+          <div style={summaryCardStyle}>
+            <div style={summaryLabelStyle}>圖片</div>
+            <div style={summaryValueStyle}>{imageCount}</div>
+          </div>
+          <div style={summaryCardStyle}>
+            <div style={summaryLabelStyle}>音檔路徑</div>
+            <div style={summaryValueStyle}>{audioCount}</div>
+          </div>
+          <div style={summaryCardStyle}>
+            <div style={summaryLabelStyle}>測驗紀錄</div>
+            <div style={summaryValueStyle}>{learningProgress.length}</div>
+          </div>
+        </section>
+
+        <h2 style={sectionTitleStyle}>管理工具</h2>
         <div style={gridStyle}>
           <div style={managementCardStyle} onClick={() => setPage("vocabulary")}>
             <h2 style={cardTitleStyle}>字庫管理</h2>

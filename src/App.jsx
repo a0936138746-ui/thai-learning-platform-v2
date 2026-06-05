@@ -156,7 +156,15 @@ function App() {
   }
 
   if (page === "teacher") {
-    return <TeacherPage setPage={setPage} />;
+    return (
+      <TeacherPage
+        setPage={setPage}
+        teacherVocabulary={teacherVocabulary}
+        teacherSentences={teacherSentences}
+        quizQuestions={quizQuestions}
+        learningProgress={learningProgress}
+      />
+    );
   }
 
   if (page === "quizManager") {
