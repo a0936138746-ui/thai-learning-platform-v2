@@ -102,6 +102,7 @@ function App() {
         teacherVocabulary={teacherVocabulary}
         teacherSentences={teacherSentences}
         quizQuestions={quizQuestions}
+        learningProgress={learningProgress}
       />
     );
   }

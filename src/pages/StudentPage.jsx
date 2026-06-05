@@ -89,6 +89,18 @@ const badgeStyle = {
   marginBottom: "12px",
 };
 
+const progressBadgeStyle = {
+  display: "inline-block",
+  padding: "6px 10px",
+  borderRadius: "999px",
+  background: "#f8fafc",
+  border: "1px solid #e5e7eb",
+  color: "#334155",
+  fontSize: "13px",
+  fontWeight: "bold",
+  marginTop: "12px",
+};
+
 const actionRowStyle = {
   display: "flex",
   flexWrap: "wrap",
@@ -124,12 +136,34 @@ function showComingSoon() {
   alert("這個功能還在排程中，會等主要學習流程穩定後再加入。");
 }
 
+function getCourseProgressLabel(category, learningProgress = []) {
+  const courseProgress = learningProgress.filter(
+    (record) => record.category === category
+  );
+
+  if (courseProgress.length === 0) {
+    return "尚未開始";
+  }
+
+  const latestProgress = courseProgress[0];
+  const wrongAnswers =
+    latestProgress.wrongAnswers ??
+    Math.max(
+      (latestProgress.totalQuestions || 0) -
+        (latestProgress.correctAnswers || 0),
+      0
+    );
+
+  return wrongAnswers > 0 ? `需複習 ${wrongAnswers} 題` : "最近全對";
+}
+
 export default function StudentPage({
   setPage,
   setStudyCategory,
   teacherVocabulary,
   teacherSentences,
   quizQuestions,
+  learningProgress,
 }) {
   const vocabularyCounts = countItemsByCategory(teacherVocabulary);
   const sentenceCounts = countItemsByCategory(teacherSentences);
@@ -187,6 +221,9 @@ export default function StudentPage({
               <p style={{ ...cardTextStyle, marginTop: "10px" }}>
                 {vocabularyCounts[category] || 0} 個字卡、{sentenceCounts[category] || 0} 個句型、{quizCounts[category] || 0} 題測驗
               </p>
+              <span style={progressBadgeStyle}>
+                {getCourseProgressLabel(category, learningProgress)}
+              </span>
 
               <div style={actionRowStyle}>
                 <button
