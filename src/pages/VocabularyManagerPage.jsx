@@ -21,6 +21,7 @@ const emptyVocabularyForm = {
   zh: "",
   th: "",
   py: "",
+  image: "",
   audio: "",
 };
 
@@ -62,6 +63,7 @@ export default function VocabularyManagerPage({
       zh: form.zh.trim(),
       th: form.th.trim(),
       py: form.py.trim(),
+      image: form.image.trim(),
       audio: form.audio.trim(),
     };
 
@@ -78,7 +80,7 @@ export default function VocabularyManagerPage({
     } else {
       setTeacherVocabulary([
         ...teacherVocabulary,
-        { id: Date.now().toString(), image: "", ...vocabularyItem },
+        { id: Date.now().toString(), ...vocabularyItem },
       ]);
     }
 
@@ -92,6 +94,7 @@ export default function VocabularyManagerPage({
       zh: item.zh,
       th: item.th,
       py: item.py || "",
+      image: item.image || "",
       audio: item.audio || "",
     });
   }
@@ -162,6 +165,16 @@ export default function VocabularyManagerPage({
             </label>
 
             <label style={labelStyle}>
+              圖片路徑
+              <input
+                style={inputStyle}
+                value={form.image}
+                onChange={(event) => updateForm("image", event.target.value)}
+                placeholder="/assets 或圖片網址"
+              />
+            </label>
+
+            <label style={labelStyle}>
               音檔路徑
               <input
                 style={inputStyle}
@@ -198,7 +211,7 @@ export default function VocabularyManagerPage({
             <table
               style={{
                 width: "100%",
-                minWidth: "720px",
+                minWidth: "820px",
                 borderCollapse: "collapse",
               }}
             >
@@ -208,6 +221,7 @@ export default function VocabularyManagerPage({
                   <th style={thStyle}>中文</th>
                   <th style={thStyle}>泰文</th>
                   <th style={thStyle}>拼音</th>
+                  <th style={thStyle}>圖片</th>
                   <th style={thStyle}>音檔</th>
                   <th style={thStyle}>操作</th>
                 </tr>
@@ -219,6 +233,7 @@ export default function VocabularyManagerPage({
                     <td style={tdStyle}>{item.zh}</td>
                     <td style={tdStyle}>{item.th}</td>
                     <td style={tdStyle}>{item.py || "-"}</td>
+                    <td style={tdStyle}>{item.image ? "已設定" : "-"}</td>
                     <td style={tdStyle}>{item.audio ? "已設定" : "-"}</td>
                     <td style={tdStyle}>
                       <button
