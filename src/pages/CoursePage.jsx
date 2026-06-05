@@ -99,6 +99,15 @@ const noteStyle = {
   lineHeight: 1.6,
 };
 
+const recommendationStyle = {
+  ...cardStyle,
+  cursor: "default",
+  textAlign: "left",
+  border: "1px solid #bbf7d0",
+  background: "#f0fdf4",
+  marginBottom: "22px",
+};
+
 export default function CoursePage({
   setPage,
   studyCategory,
@@ -140,6 +149,27 @@ export default function CoursePage({
       : latestWrongAnswers > 0
         ? `最近錯 ${latestWrongAnswers} 題`
         : "最近全對";
+  const recommendedAction =
+    courseProgress.length === 0
+      ? {
+          title: "建議先完成本章測驗",
+          text: "做完一次測驗後，這裡就會開始顯示本章進度和複習狀態。",
+          buttonText: "進入測驗",
+          page: "quiz",
+        }
+      : latestWrongAnswers > 0
+        ? {
+            title: "建議先回字卡複習",
+            text: `最近一次測驗錯了 ${latestWrongAnswers} 題，先回字卡補強再測一次會比較穩。`,
+            buttonText: "複習字卡",
+            page: "flashcards",
+          }
+        : {
+            title: "本章狀態很好",
+            text: "最近一次測驗全對，可以繼續練句型，或直接挑戰下一個主題。",
+            buttonText: "練習句型",
+            page: "sentencePractice",
+          };
 
   return (
     <div style={pageStyle}>
@@ -201,6 +231,17 @@ export default function CoursePage({
               </div>
             </div>
           </div>
+        </section>
+
+        <section style={recommendationStyle}>
+          <h2 style={cardTitleStyle}>{recommendedAction.title}</h2>
+          <p style={cardTextStyle}>{recommendedAction.text}</p>
+          <button
+            style={{ ...greenButtonStyle, marginTop: "16px" }}
+            onClick={() => setPage(recommendedAction.page)}
+          >
+            {recommendedAction.buttonText}
+          </button>
         </section>
 
         <section style={pathGridStyle}>
