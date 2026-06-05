@@ -81,6 +81,42 @@ const sectionTitleStyle = {
   color: "#111827",
 };
 
+const healthPanelStyle = {
+  background: "white",
+  padding: "18px",
+  borderRadius: "16px",
+  border: "1px solid #e5e7eb",
+  boxShadow: "0 5px 20px rgba(0,0,0,0.05)",
+  marginBottom: "24px",
+};
+
+const healthGridStyle = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(min(190px, 100%), 1fr))",
+  gap: "12px",
+  marginTop: "14px",
+};
+
+const healthItemStyle = {
+  background: "#f8fafc",
+  border: "1px solid #e5e7eb",
+  borderRadius: "14px",
+  padding: "14px",
+};
+
+const healthTitleStyle = {
+  color: "#111827",
+  fontWeight: "bold",
+  marginBottom: "6px",
+};
+
+const healthTextStyle = {
+  color: "#64748b",
+  lineHeight: 1.5,
+  margin: 0,
+  fontSize: "15px",
+};
+
 function showComingSoon() {
   alert("這個管理功能會放到後續版本，先把內容和學習流程穩定下來。");
 }
@@ -123,6 +159,13 @@ export default function TeacherPage({
   const audioCount =
     teacherVocabulary.filter((item) => item.audio).length +
     teacherSentences.filter((item) => item.audio).length;
+  const missingImageCount = teacherVocabulary.length - imageCount;
+  const missingVocabularyAudioCount = teacherVocabulary.filter(
+    (item) => !item.audio
+  ).length;
+  const missingSentenceAudioCount = teacherSentences.filter(
+    (item) => !item.audio
+  ).length;
 
   return (
     <div style={pageStyle}>
@@ -160,6 +203,34 @@ export default function TeacherPage({
           <div style={summaryCardStyle}>
             <div style={summaryLabelStyle}>測驗紀錄</div>
             <div style={summaryValueStyle}>{learningProgress.length}</div>
+          </div>
+        </section>
+
+        <section style={healthPanelStyle}>
+          <h2 style={cardTitleStyle}>素材狀態</h2>
+          <p style={cardTextStyle}>
+            這裡用來追蹤後續要補的圖片與音檔，先看缺口，再分批補齊。
+          </p>
+
+          <div style={healthGridStyle}>
+            <div style={healthItemStyle}>
+              <div style={healthTitleStyle}>字卡圖片</div>
+              <p style={healthTextStyle}>
+                已設定 {imageCount} 筆，尚缺 {missingImageCount} 筆。
+              </p>
+            </div>
+            <div style={healthItemStyle}>
+              <div style={healthTitleStyle}>字卡音檔</div>
+              <p style={healthTextStyle}>
+                尚缺 {missingVocabularyAudioCount} 筆，之後可批次補在 /audio/vocab。
+              </p>
+            </div>
+            <div style={healthItemStyle}>
+              <div style={healthTitleStyle}>句型音檔</div>
+              <p style={healthTextStyle}>
+                尚缺 {missingSentenceAudioCount} 筆，適合等句庫穩定後再補。
+              </p>
+            </div>
           </div>
         </section>
 
