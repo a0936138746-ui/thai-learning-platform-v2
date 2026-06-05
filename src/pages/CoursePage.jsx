@@ -131,6 +131,15 @@ export default function CoursePage({
   const latestPracticeText = latestProgress
     ? new Date(latestProgress.answeredAt).toLocaleString("zh-TW")
     : "尚未測驗";
+  const latestWrongAnswers =
+    latestProgress?.wrongAnswers ??
+    Math.max((latestProgress?.totalQuestions || 0) - (latestProgress?.correctAnswers || 0), 0);
+  const reviewStatusText =
+    courseProgress.length === 0
+      ? "尚未開始"
+      : latestWrongAnswers > 0
+        ? `最近錯 ${latestWrongAnswers} 題`
+        : "最近全對";
 
   return (
     <div style={pageStyle}>
@@ -183,6 +192,12 @@ export default function CoursePage({
               <div style={statLabelStyle}>最近練習</div>
               <div style={{ color: "#111827", lineHeight: 1.5, marginTop: "8px" }}>
                 {latestPracticeText}
+              </div>
+            </div>
+            <div style={statBoxStyle}>
+              <div style={statLabelStyle}>複習提示</div>
+              <div style={{ color: "#111827", lineHeight: 1.5, marginTop: "8px" }}>
+                {reviewStatusText}
               </div>
             </div>
           </div>

@@ -135,11 +135,13 @@ export default function QuizPage({
       const correctAnswers = Object.values(nextAnsweredQuestions).filter(
         Boolean
       ).length;
+      const wrongAnswers = practiceQuestions.length - correctAnswers;
 
       onQuizCompleted({
         category: studyCategory && studyCategory !== "all" ? studyCategory : "全部",
         totalQuestions: practiceQuestions.length,
         correctAnswers,
+        wrongAnswers,
         answeredAt: new Date().toISOString(),
       });
       hasRecordedCompletionRef.current = true;

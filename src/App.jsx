@@ -86,6 +86,7 @@ function App() {
           category: record.category,
           totalQuestions: record.totalQuestions,
           correctAnswers: record.correctAnswers,
+          wrongAnswers: record.wrongAnswers,
           answeredAt: record.answeredAt,
         },
         ...currentProgress,
@@ -101,7 +102,6 @@ function App() {
         teacherVocabulary={teacherVocabulary}
         teacherSentences={teacherSentences}
         quizQuestions={quizQuestions}
-        learningProgress={learningProgress}
       />
     );
   }
@@ -114,6 +114,7 @@ function App() {
         teacherVocabulary={teacherVocabulary}
         teacherSentences={teacherSentences}
         quizQuestions={quizQuestions}
+        learningProgress={learningProgress}
       />
     );
   }

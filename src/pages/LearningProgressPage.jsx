@@ -125,6 +125,7 @@ export default function LearningProgressPage({ setPage, learningProgress }) {
                   <th style={thStyle}>完成時間</th>
                   <th style={thStyle}>總題數</th>
                   <th style={thStyle}>答對題數</th>
+                  <th style={thStyle}>答錯題數</th>
                   <th style={thStyle}>正確率</th>
                 </tr>
               </thead>
@@ -135,6 +136,14 @@ export default function LearningProgressPage({ setPage, learningProgress }) {
                     <td style={tdStyle}>{formatAnsweredAt(record.answeredAt)}</td>
                     <td style={tdStyle}>{record.totalQuestions}</td>
                     <td style={tdStyle}>{record.correctAnswers}</td>
+                    <td style={tdStyle}>
+                      {record.wrongAnswers ??
+                        Math.max(
+                          (record.totalQuestions || 0) -
+                            (record.correctAnswers || 0),
+                          0
+                        )}
+                    </td>
                     <td style={tdStyle}>{getAccuracy(record)}</td>
                   </tr>
                 ))}
