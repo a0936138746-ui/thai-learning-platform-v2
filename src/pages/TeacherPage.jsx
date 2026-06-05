@@ -1,4 +1,11 @@
 import {
+  BOOKING_STORAGE_KEY,
+  LEARNING_PROGRESS_STORAGE_KEY,
+  QUIZ_STORAGE_KEY,
+  SENTENCE_STORAGE_KEY,
+  VOCABULARY_STORAGE_KEY,
+} from "../data";
+import {
   backButtonStyle,
   cardStyle,
   gridStyle,
@@ -45,6 +52,33 @@ function showComingSoon() {
   alert("這個管理功能會放到後續版本，先把內容和學習流程穩定下來。");
 }
 
+async function resetDemoData() {
+  const shouldReset = confirm(
+    "要清除目前瀏覽器內的自訂資料，重新載入內建示範資料嗎？"
+  );
+
+  if (!shouldReset) {
+    return;
+  }
+
+  [
+    VOCABULARY_STORAGE_KEY,
+    SENTENCE_STORAGE_KEY,
+    QUIZ_STORAGE_KEY,
+    LEARNING_PROGRESS_STORAGE_KEY,
+    BOOKING_STORAGE_KEY,
+  ].forEach((storageKey) => {
+    localStorage.removeItem(storageKey);
+  });
+
+  if ("caches" in window) {
+    const cacheNames = await window.caches.keys();
+    await Promise.all(cacheNames.map((cacheName) => window.caches.delete(cacheName)));
+  }
+
+  window.location.replace(`${window.location.pathname}?reset=${Date.now()}`);
+}
+
 export default function TeacherPage({ setPage }) {
   return (
     <div style={pageStyle}>
@@ -87,6 +121,11 @@ export default function TeacherPage({ setPage }) {
           <div style={managementCardStyle} onClick={showComingSoon}>
             <h2 style={cardTitleStyle}>AI 內容助手</h2>
             <p style={cardTextStyle}>後續可協助批次產生單字、例句、測驗和圖片提示詞。</p>
+          </div>
+
+          <div style={managementCardStyle} onClick={resetDemoData}>
+            <h2 style={cardTitleStyle}>重置示範資料</h2>
+            <p style={cardTextStyle}>清除目前瀏覽器內的測試資料，重新載入內建字庫、句庫和題庫。</p>
           </div>
         </div>
 
